@@ -1,0 +1,16 @@
+{
+    "orders":{
+        "main": {
+            "查詢/修改": "select",
+            "新增": "new",
+            "離開": "quit"
+        },
+        "select": {
+            "最近的資料": "OrderID",
+            "根據客戶名稱": "CustomerName",
+            "根據訂單成立日期": "OrderDate",
+            "根據訂單配送日期": "ShippedDate",
+            "是否完成訂單": "Complete"
+        }
+    }  
+}
