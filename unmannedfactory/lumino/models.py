@@ -1,14 +1,22 @@
 from __future__ import unicode_literals
 from django.db import models
+from django.db import connection
 
-# Create your models here.
-# class COMP(models.Model):
-#     CompanyID = models.IntegerField(db_column='CompanyID', primary_key=True)      
-#     CompanyName = models.CharField(db_column='CompanyName', max_length=20)     
-#     Abbreviation = models.CharField(db_column='Abbreviation', max_length=10, blank=True, null=True)
-       
-#     class Meta:
-#         db_table = "companies_of_tw50"
+class Drivelesscar(models.Model):
+    id = models.IntegerField(primary_key=True)
+    carid = models.CharField(max_length=45)
+    status = models.CharField(max_length=45)
+    battery = models.CharField(max_length=20)
+
+    class Meta:
+        managed = False
+        db_table = 'drivelesscar'
+
+    def all(self):
+        with connection.cursor() as cursor:
+            cursor.execute("select * from drivelesscar")
+            datas = cursor.fetchall()
+        return datas
 
 class Employees(models.Model):
     employeeid = models.AutoField(db_column='EmployeeID', primary_key=True)  # Field name made lowercase.

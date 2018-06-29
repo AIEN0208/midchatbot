@@ -6,11 +6,29 @@ from .models import Products
 from .models import Orders
 from .models import OrdersDetail
 import json
-
+from .models import Drivelesscar as dr
+from lumino.models import Drivelesscar
+from lumino.serializers import DrivelesscarSerializer
 from .serializers import ProductsSerializer
 from .serializers import OrdersSerializer
 from .serializers import OrdersDetailSerializer
 from rest_framework import viewsets
+
+class ProductsViewSet(viewsets.ModelViewSet):
+    queryset = Products.objects.all()
+    serializer_class = ProductsSerializer
+
+class OrdersViewSet(viewsets.ModelViewSet):
+    queryset = Orders.objects.all()
+    serializer_class = OrdersSerializer
+
+class OrdersDetailViewSet(viewsets.ModelViewSet):
+    queryset = OrdersDetail.objects.all()
+    serializer_class = OrdersDetailSerializer
+
+class DrivelesscarViewSet(viewsets.ModelViewSet):
+    queryset = Drivelesscar.objects.all()
+    serializer_class = DrivelesscarSerializer
 
 # Create your views here.
 def index(request):
@@ -18,6 +36,8 @@ def index(request):
     return render(request, "lumino/index.html", locals())
 def carrobots(request):
     pageTitle = "#"
+    drs = dr()
+    data = drs.all()
     return render(request, "lumino/carrobots.html", locals())
 def members(request):
     pageTitle = "#"
@@ -65,14 +85,3 @@ def getjson(request):
     data2= json.loads(data)
     return JsonResponse(data2, safe=False)
 
-class ProductsViewSet(viewsets.ModelViewSet):
-    queryset = Products.objects.all()
-    serializer_class = ProductsSerializer
-
-class OrdersViewSet(viewsets.ModelViewSet):
-    queryset = Orders.objects.all()
-    serializer_class = OrdersSerializer
-
-class OrdersDetailViewSet(viewsets.ModelViewSet):
-    queryset = OrdersDetail.objects.all()
-    serializer_class = OrdersDetailSerializer

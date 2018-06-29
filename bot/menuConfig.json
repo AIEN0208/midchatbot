@@ -1,4 +1,12 @@
 {
+    "main":{
+        "產品":"products",
+        "會員":"members",
+        "機器人":"carMenu",
+        "訂單":"orders",
+        "離開":"exit"
+    },
+    
     "orders":{
         "main": {
             "查詢/修改": "select",
