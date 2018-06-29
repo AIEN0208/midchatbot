@@ -1,9 +1,9 @@
 {
     "orders":{
         "main": {
-            "查詢/修改": "select",
-            "新增": "new",
-            "離開": "quit"
+            "查詢/修改": "ordersselect",
+            "新增": "ordersnew",
+            "離開": "ordersquit"
         },
         "select": {
             "最近的資料": "OrderID",

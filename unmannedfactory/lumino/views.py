@@ -47,12 +47,16 @@ def orders(request):
     costcotarget = 50000
     carrefourtarget = 30000
     remarttarget = 20000
-
-    total = int(totalprice / totaltarget *100)
-    costco = int(costcoprice / costcotarget *100)
-    carrefour = int(carrefourprice / carrefourtarget *100)
-    rtmart = int(rtmartprice / remarttarget *100)
-
+    def percentage(p):
+        if p > 100:
+            return 100
+        else:
+            return p
+    total = percentage(int(totalprice / totaltarget *100))
+    costco = percentage(int(costcoprice / costcotarget *100))
+    carrefour = percentage(int(carrefourprice / carrefourtarget *100))
+    rtmart = percentage(int(rtmartprice / remarttarget *100))
+    
     return render(request, "lumino/orders.html", locals())
     
 def login(request):

@@ -71,14 +71,14 @@ bot.dialog('orders', [
     matches:/^回訂單首頁$/
 })
 
-bot.dialog('quit', [
+bot.dialog('ordersquit', [
     function(session){
         session.send("離開訂單資訊")
         session.endDialog()
     }
 ])
 
-bot.dialog('select',[
+bot.dialog('ordersselect',[
     function(session){
         session.dialogData.orders={}
         builder.Prompts.choice(session, "請問您要依據何者查詢訂單?", orders.select, {listStyle:builder.ListStyle.button}); 
@@ -161,7 +161,7 @@ bot.dialog('select',[
                 }
             })//訂單明細迴圈結束
             var updatevalue = {
-                dialog:"update",
+                dialog:"ordersupdate",
                 order:{"orderid":OrderID}
             }
             var attachment = new builder.ReceiptCard(session)
@@ -187,7 +187,7 @@ bot.dialog('select',[
     },
 ])
 
-bot.dialog('new',[
+bot.dialog('ordersnew',[
     function(session){
         session.dialogData.new = {}
         builder.Prompts.text(session, "請輸入客戶名稱?")
@@ -296,7 +296,7 @@ var shippeddate
 var totalprice
 var complete
 
-bot.dialog('update',[
+bot.dialog('ordersupdate',[
     function(session){
         order = JSON.parse(session.message.text).order
         orderid = parseInt(order.orderid)
@@ -499,7 +499,7 @@ bot.dialog('update',[
         })
     }
 ]).triggerAction({
-    matches:/^{"dialog":"update".*/
+    matches:/^{"dialog":"ordersupdate".*/
 })
 
 var updatedetail = []
