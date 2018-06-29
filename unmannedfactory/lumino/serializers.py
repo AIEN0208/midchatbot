@@ -2,8 +2,14 @@ from rest_framework import serializers
 from .models import Products
 from .models import Orders
 from .models import OrdersDetail
+from lumino.models import Drivelesscar
 
 
+class DrivelesscarSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Drivelesscar
+        fields = '__all__'
+        
 class ProductsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Products

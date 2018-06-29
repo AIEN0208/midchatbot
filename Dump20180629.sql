@@ -297,6 +297,32 @@ LOCK TABLES `django_session` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `drivelesscar`
+--
+
+DROP TABLE IF EXISTS `drivelesscar`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `drivelesscar` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `carid` varchar(45) NOT NULL,
+  `status` varchar(45) NOT NULL,
+  `battery` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `drivelesscar`
+--
+
+LOCK TABLES `drivelesscar` WRITE;
+/*!40000 ALTER TABLE `drivelesscar` DISABLE KEYS */;
+INSERT INTO `drivelesscar` VALUES (1,'1號','工作中','95%'),(2,'2號','工作中','90%'),(3,'3號','休眠中','100%'),(4,'4號','休眠中','100%'),(5,'5號','工作中','90%'),(6,'6號','工作中','90%'),(7,'7號','休眠中','100%'),(8,'8號','維修中','100%'),(9,'9號','休眠中','100%'),(10,'10號','工作中','90%'),(11,'11號','休眠中','100%');
+/*!40000 ALTER TABLE `drivelesscar` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `orders`
 --
 
@@ -311,7 +337,7 @@ CREATE TABLE `orders` (
   `TotalPrice` int(11) NOT NULL,
   `Complete` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`OrderID`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -320,7 +346,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,'Costco','06-20','06-26',5400,'完成'),(2,'Carrefour','06-26','06-30',3600,'完成'),(3,'Costco','06-30','07-03',1200,'完成'),(4,'Costco','06-27','06-30',3000,'完成'),(5,'RT-Mart','06-27','06-30',1800,'完成'),(6,'RT-Mart','06-27','07-01',2700,'完成'),(7,'Costco','06-30','07-03',3600,'完成'),(8,'Carrefour','06-27','07-03',9800,'完成'),(9,'Carrefour','06-28','07-03',5200,'完成'),(10,'Costco','06-28','07-02',4600,'完成'),(11,'Carrefour','06-28','07-05',10000,'完成'),(12,'RT-Mart','06-29','07-06',6000,'未完成');
+INSERT INTO `orders` VALUES (1,'Costco','06-20','06-26',5400,'完成'),(2,'Carrefour','06-26','06-30',3600,'完成'),(3,'Costco','06-30','07-03',1200,'完成'),(4,'Costco','06-27','06-30',3000,'完成'),(5,'RT-Mart','06-27','06-30',1800,'完成'),(6,'RT-Mart','06-27','07-01',2700,'完成'),(7,'Costco','06-30','07-03',3600,'完成'),(8,'Carrefour','06-27','07-03',9800,'完成'),(9,'Carrefour','06-28','07-03',5200,'完成'),(10,'Costco','06-28','07-02',4600,'完成'),(11,'Carrefour','06-28','07-05',10000,'完成'),(12,'RT-Mart','06-29','07-06',6000,'未完成'),(13,'Costco','06-29','07-06',14000,'未完成');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -341,7 +367,7 @@ CREATE TABLE `orders_detail` (
   `SubtotalPrice` int(11) NOT NULL,
   `Status` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`DetailID`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -350,7 +376,7 @@ CREATE TABLE `orders_detail` (
 
 LOCK TABLES `orders_detail` WRITE;
 /*!40000 ALTER TABLE `orders_detail` DISABLE KEYS */;
-INSERT INTO `orders_detail` VALUES (1,1,1,'Origin Yogurt',300,2,600,'Complete'),(2,1,3,'Grape Yogurt',1200,4,4800,'Complete'),(3,2,3,'Grape Yogurt',1200,3,3600,'Complete'),(4,3,3,'Grape Yogurt',1200,1,1200,'Complete'),(5,4,2,'Orange Yogurt',800,3,2400,'Complete'),(6,4,1,'Origin Yogurt',300,2,600,'Complete'),(7,5,1,'Origin Yogurt',300,2,600,'Complete'),(8,5,3,'Grape Yogurt',1200,1,1200,'Complete'),(9,6,2,'Orange Yogurt',800,2,1600,'Canceled'),(10,6,3,'Grape Yogurt',1200,1,1200,'Canceled'),(11,7,1,'Origin Yogurt',300,2,600,'Canceled'),(12,7,2,'Orange Yogurt',800,3,2400,'Complete'),(13,7,3,'Grape Yogurt',1200,1,1200,'Complete'),(14,6,1,'Origin Yogurt',300,1,300,'Complete'),(15,6,2,'Orange Yogurt',800,3,2400,'Complete'),(16,9,2,'Orange Yogurt',800,2,1600,'Complete'),(17,9,3,'Grape Yogurt',1200,3,3600,'Complete'),(18,8,2,'Orange Yogurt',800,10,8000,'Complete'),(19,8,1,'Origin Yogurt',300,6,1800,'Complete'),(20,10,2,'Orange Yogurt',800,2,1600,'Canceled'),(21,10,3,'Grape Yogurt',1200,3,3600,'Canceled'),(22,10,2,'Orange Yogurt',800,2,1600,'Complete'),(23,10,1,'Origin Yogurt',300,10,3000,'Complete'),(24,10,2,'Orange Yogurt',800,10,8000,'Canceled'),(25,11,2,'Orange Yogurt',800,5,4000,'Complete'),(26,11,3,'Grape Yogurt',1200,5,6000,'Complete'),(27,12,3,'Grape Yogurt',1200,5,6000,'onGoing');
+INSERT INTO `orders_detail` VALUES (1,1,1,'Origin Yogurt',300,2,600,'Complete'),(2,1,3,'Grape Yogurt',1200,4,4800,'Complete'),(3,2,3,'Grape Yogurt',1200,3,3600,'Complete'),(4,3,3,'Grape Yogurt',1200,1,1200,'Complete'),(5,4,2,'Orange Yogurt',800,3,2400,'Complete'),(6,4,1,'Origin Yogurt',300,2,600,'Complete'),(7,5,1,'Origin Yogurt',300,2,600,'Complete'),(8,5,3,'Grape Yogurt',1200,1,1200,'Complete'),(9,6,2,'Orange Yogurt',800,2,1600,'Canceled'),(10,6,3,'Grape Yogurt',1200,1,1200,'Canceled'),(11,7,1,'Origin Yogurt',300,2,600,'Canceled'),(12,7,2,'Orange Yogurt',800,3,2400,'Complete'),(13,7,3,'Grape Yogurt',1200,1,1200,'Complete'),(14,6,1,'Origin Yogurt',300,1,300,'Complete'),(15,6,2,'Orange Yogurt',800,3,2400,'Complete'),(16,9,2,'Orange Yogurt',800,2,1600,'Complete'),(17,9,3,'Grape Yogurt',1200,3,3600,'Complete'),(18,8,2,'Orange Yogurt',800,10,8000,'Complete'),(19,8,1,'Origin Yogurt',300,6,1800,'Complete'),(20,10,2,'Orange Yogurt',800,2,1600,'Canceled'),(21,10,3,'Grape Yogurt',1200,3,3600,'Canceled'),(22,10,2,'Orange Yogurt',800,2,1600,'Complete'),(23,10,1,'Origin Yogurt',300,10,3000,'Complete'),(24,10,2,'Orange Yogurt',800,10,8000,'Canceled'),(25,11,2,'Orange Yogurt',800,5,4000,'Complete'),(26,11,3,'Grape Yogurt',1200,5,6000,'Complete'),(27,12,3,'Grape Yogurt',1200,5,6000,'onGoing'),(28,13,3,'Grape Yogurt',1200,5,6000,'onGoing'),(29,13,2,'Orange Yogurt',800,10,8000,'onGoing');
 /*!40000 ALTER TABLE `orders_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -389,4 +415,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-29 16:14:42
+-- Dump completed on 2018-06-29 19:41:51
