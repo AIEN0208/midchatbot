@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `yogurt` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
-USE `yogurt`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: yogurt
@@ -187,6 +185,32 @@ LOCK TABLES `auth_user_user_permissions` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `department`
+--
+
+DROP TABLE IF EXISTS `department`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `department` (
+  `id` varchar(45) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `group` varchar(45) NOT NULL,
+  `mainproject` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `department`
+--
+
+LOCK TABLES `department` WRITE;
+/*!40000 ALTER TABLE `department` DISABLE KEYS */;
+INSERT INTO `department` VALUES ('AD0000','Administration Department','1',NULL),('FN4012','Finance Department','2',NULL),('HR2210','Human Resources Department','3',NULL),('MK3578','Marketing Department','4',NULL),('OP1101','Operations Department','5',NULL);
+/*!40000 ALTER TABLE `department` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `django_admin_log`
 --
 
@@ -318,8 +342,80 @@ CREATE TABLE `drivelesscar` (
 
 LOCK TABLES `drivelesscar` WRITE;
 /*!40000 ALTER TABLE `drivelesscar` DISABLE KEYS */;
-INSERT INTO `drivelesscar` VALUES (1,'1號','工作中','95%'),(2,'2號','工作中','90%'),(3,'3號','休眠中','100%'),(4,'4號','休眠中','100%'),(5,'5號','工作中','90%'),(6,'6號','工作中','90%'),(7,'7號','休眠中','100%'),(8,'8號','維修中','100%'),(9,'9號','休眠中','100%'),(10,'10號','工作中','90%'),(11,'11號','休眠中','100%');
+INSERT INTO `drivelesscar` VALUES (1,'1號','待充電','0%'),(2,'2號','待充電','0%'),(3,'3號','休眠中','100%'),(4,'4號','休眠中','100%'),(5,'5號','待充電','0%'),(6,'6號','待充電','0%'),(7,'7號','休眠中','100%'),(8,'8號','維修中','100%'),(9,'9號','休眠中','100%'),(10,'10號','待充電','0%'),(11,'11號','休眠中','100%');
 /*!40000 ALTER TABLE `drivelesscar` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `employees`
+--
+
+DROP TABLE IF EXISTS `employees`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `employees` (
+  `EmployeeID` int(11) NOT NULL AUTO_INCREMENT,
+  `LastName` varchar(20) NOT NULL,
+  `FirstName` varchar(10) NOT NULL,
+  `Title` varchar(30) DEFAULT NULL,
+  `TitleOfCourtesy` varchar(25) DEFAULT NULL,
+  `BirthDate` datetime DEFAULT NULL,
+  `HireDate` datetime DEFAULT NULL,
+  `Address` varchar(60) DEFAULT NULL,
+  `City` varchar(15) DEFAULT NULL,
+  `Region` varchar(15) DEFAULT NULL,
+  `PostalCode` varchar(10) DEFAULT NULL,
+  `Country` varchar(15) DEFAULT NULL,
+  `HomePhone` varchar(24) DEFAULT NULL,
+  `Extension` varchar(4) DEFAULT NULL,
+  `Photo` varchar(255) DEFAULT NULL,
+  `Notes` text,
+  `ReportsTo` int(11) DEFAULT NULL,
+  `PhotoPath` varchar(255) DEFAULT NULL,
+  `Department` varchar(45) DEFAULT NULL,
+  `Position` varchar(45) DEFAULT NULL,
+  `Email` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`EmployeeID`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `employees`
+--
+
+LOCK TABLES `employees` WRITE;
+/*!40000 ALTER TABLE `employees` DISABLE KEYS */;
+INSERT INTO `employees` VALUES (1,'Davolio','Nancy','Sales Representative','Ms.','1948-12-08 00:00:00','1992-05-01 00:00:00','507 - 20th Ave. E. Apt. 2A','Seattle','WA','98122','USA','(206) 555-9857','5467',NULL,'Andrew received his BTS commercial in 1974 and a Ph.D. in international marketing from the University of Dallas in 1981.  He is fluent in French and Italian and reads German.  He joined the company as a sales representative, was promoted to sales manager in January 1992 and to vice president of sales in March 1993.  Andrew is a member of the Sales Management Roundtable, the Seattle Chamber of Commerce, and the Pacific Rim Importers Association.',2,'https://www.presentermedia.com/files/animsp/00015000/15966/office_worker_hard_at_work_anim_md_wm.gif','Marketing','Manager','Davolio@yogurt.com'),(2,'Fuller','Andrew','Vice President, Sales','Dr.','1952-02-19 00:00:00','1992-08-14 00:00:00','908 W. Capital Way','Tacoma','WA','98401','USA','(206) 555-9482','3457',NULL,'Andrew received his BTS commercial in 1974 and a Ph.D. in international marketing from the University of Dallas in 1981.  He is fluent in French and Italian and reads German.  He joined the company as a sales representative, was promoted to sales manager in January 1992 and to vice president of sales in March 1993.  Andrew is a member of the Sales Management Roundtable, the Seattle Chamber of Commerce, and the Pacific Rim Importers Association.',NULL,'https://www.presentermedia.com/files/animsp/00013000/13061/boss_dangling_carrot_for_employee_anim_md_wm.gif',NULL,'CEO','Fuller@yogurt.com'),(3,'Leverling','Janet','Sales Representative','Ms.','1963-08-30 00:00:00','1992-04-01 00:00:00','722 Moss Bay Blvd.','Kirkland','WA','98033','USA','(206) 555-3412','3355',NULL,'Janet has a BS degree in chemistry from Boston College (1984).  She has also completed a certificate program in food retailing management.  Janet was hired as a sales associate in 1991 and promoted to sales representative in February 1992.',2,'https://3.bp.blogspot.com/-O-OysPmGAys/WRHkuWExPVI/AAAAAAAAABc/_tn_OZO71Rwqiv9m247WX7rG1Bxm-WfeQCLcB/s1600/businessman_multi_tasking.gif','Finance','Manager','Leverling@yogurt.com'),(4,'Peacock','Margaret','Sales Representative','Mrs.','1937-09-19 00:00:00','1993-05-03 00:00:00','4110 Old Redmond Rd.','Redmond','WA','98052','USA','(206) 555-8122','5176',NULL,'Margaret holds a BA in English literature from Concordia College (1958) and an MA from the American Institute of Culinary Arts (1966).  She was assigned to the London office temporarily from July through November 1992.',2,'https://www.presentermedia.com/files/animsp/00005000/5432/two_chatting_in_cubicle_md_wm_v2.gif','HRM','Manager','Peacock@yogurt.com'),(5,'Buchana','Steve','Sales Manager','Mr.','1955-03-04 00:00:00','1993-10-17 00:00:00','14 Garrett Hill','London',NULL,'SW1 8JR','UK','(71) 555-4848','3453',NULL,'Steven Buchanan graduated from St. Andrews University, Scotland, with a BSC degree in 1976.  Upon joining the company as a sales representative in 1992, he spent 6 months in an orientation program at the Seattle office and then returned to his permanent post in London.  He was promoted to sales manager in March 1993.  Mr. Buchanan has completed the courses \"Successful Telemarketing\" and \"International Sales Management.\"  He is fluent in French.',2,'https://www.presentermedia.com/files/animsp/00013000/13556/robot_arm_move_objects_md_wm.gif','Operatoins','Manager','Buchana@yogurt.com'),(6,'Suyama','Michael','Sales Representative','Mr.','1963-07-02 00:00:00','1993-10-17 00:00:00','Coventry House Miner Rd.','London',NULL,'EC2 7JR','UK','(71) 555-7773','428',NULL,'Michael is a graduate of Sussex University (MA, economics, 1983) and the University of California at Los Angeles (MBA, marketing, 1986).  He has also taken the courses \"Multi-Cultural Selling\" and \"Time Management for the Sales Professional.\"  He is fluent in Japanese and can read and write French, Portuguese, and Spanish.',5,'https://www.presentermedia.com/files/animsp/00013000/13556/robot_arm_move_objects_md_wm.gif','Operatoins','Operator','Suyama@yogurt.com'),(7,'King','Robert','Sales Representative','Mr.','1960-05-29 00:00:00','1994-01-02 00:00:00','Edgeham Hollow Winchester Way','London',NULL,'RG1 9SP','UK','(71) 555-5598','465',NULL,'Robert King served in the Peace Corps and traveled extensively before completing his degree in English at the University of Michigan in 1992, the year he joined the company.  After completing a course entitled \"Selling in Europe,\" he was transferred to the London office in March 1993.',5,'https://www.presentermedia.com/files/animsp/00013000/13556/robot_arm_move_objects_md_wm.gif','Operatoins','Operator','King@yogurt.com'),(8,'Callaha','Laura','Inside Sales Coordinator','Ms.','1958-01-09 00:00:00','1994-03-05 00:00:00','4726 - 11th Ave. N.E.','Seattle','WA','98105','USA','(206) 555-1189','2344',NULL,'Laura received a BA in psychology from the University of Washington.  She has also completed a course in business French.  She reads and writes French.',2,'https://www.presentermedia.com/files/animsp/00017000/17885/businesswoman_multi_tasking_md_wm_v2.gif',NULL,'Assistant ','Callaha@yogurt.com'),(9,'Dodsworth','Anne','Sales Representative','Ms.','1966-01-27 00:00:00','1994-11-15 00:00:00','7 Houndstooth Rd.','London',NULL,'WG2 7LT','UK','(71) 555-4444','452',NULL,'Anne has a BA degree in English from St. Lawrence College.  She is fluent in French and German.',5,'https://www.presentermedia.com/files/animsp/00013000/13556/robot_arm_move_objects_md_wm.gif','Operatoins','Operator','Dodsworth@yogurt.com');
+/*!40000 ALTER TABLE `employees` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `employeestask`
+--
+
+DROP TABLE IF EXISTS `employeestask`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `employeestask` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `employeeid` int(11) NOT NULL,
+  `job` varchar(200) DEFAULT NULL,
+  `dailyreport` varchar(200) DEFAULT NULL,
+  `notes` varchar(200) DEFAULT NULL,
+  `enduptime` datetime DEFAULT NULL,
+  `employeestaskcol` varchar(45) CHARACTER SET latin1 DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `employeestask`
+--
+
+LOCK TABLES `employeestask` WRITE;
+/*!40000 ALTER TABLE `employeestask` DISABLE KEYS */;
+INSERT INTO `employeestask` VALUES (1,1,'','與Wos Burger簽下新合同， 供應優格做為其商品之一。',NULL,NULL,NULL),(2,1,'','受到國際貿易戰爭衝擊，部份輸出國家關稅增加。',NULL,NULL,NULL),(3,3,'','美元強勢看漲，建議增家公司現金分配比例。',NULL,NULL,NULL),(4,3,'','國X局正在找我們麻煩，要派特務出動嗎?',NULL,NULL,NULL),(5,4,'','亞太地區的招募計劃大成功，我們獲得了許多新鮮的livers.',NULL,NULL,NULL),(6,5,'','Distco的訂單已完成63%，應能如期交貨。',NULL,NULL,NULL),(7,5,NULL,'Carrefour的訂單已完成95%，應能如期交貨。',NULL,NULL,NULL),(8,5,NULL,'RT-Mart的訂單已完成52%，或能如期交貨。',NULL,NULL,NULL),(9,5,NULL,'廠區產能滿載，搬運人手不足，急需AGVs!!!',NULL,NULL,NULL),(10,1,'穿布偶服去街上發傳單',NULL,NULL,NULL,NULL),(11,1,'做一個觀看人數破百萬的youtube視頻',NULL,NULL,NULL,NULL),(12,1,'這季銷售再下滑全體睡公司',NULL,NULL,NULL,NULL),(13,3,'Save my money!!',NULL,NULL,NULL,NULL),(14,4,'尋找更新鮮的肝',NULL,NULL,NULL,NULL),(15,4,'向大專院校尋求建教合作，獲取勞力',NULL,NULL,NULL,NULL),(16,5,'生產Distco的訂單',NULL,NULL,NULL,NULL),(17,5,'生產Carrefour的訂單',NULL,NULL,NULL,NULL),(18,5,'生產RT-Mart的訂單',NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `employeestask` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -415,4 +511,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-29 19:41:51
+-- Dump completed on 2018-07-01 22:33:11

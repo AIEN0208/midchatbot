@@ -10,6 +10,8 @@ router = DefaultRouter()
 router.register(r'products', views.ProductsViewSet)
 router.register(r'orders', views.OrdersViewSet)
 router.register(r'ordersdetail', views.OrdersDetailViewSet)
+router.register(r'employees', views.EmployeesViewSet)
+router.register(r'employeestask', views.EmployeestaskViewSet)
 
 urlpatterns = [
     path('', views.index, name="index"),

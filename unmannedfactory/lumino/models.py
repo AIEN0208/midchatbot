@@ -18,30 +18,6 @@ class Drivelesscar(models.Model):
             datas = cursor.fetchall()
         return datas
 
-class Employees(models.Model):
-    employeeid = models.AutoField(db_column='EmployeeID', primary_key=True)  # Field name made lowercase.
-    lastname = models.CharField(db_column='LastName', max_length=20)  # Field name made lowercase.
-    firstname = models.CharField(db_column='FirstName', max_length=10)  # Field name made lowercase.
-    title = models.CharField(db_column='Title', max_length=30, blank=True, null=True)  # Field name made lowercase.
-    titleofcourtesy = models.CharField(db_column='TitleOfCourtesy', max_length=25, blank=True, null=True)  # Field name made lowercase.
-    birthdate = models.DateTimeField(db_column='BirthDate', blank=True, null=True)  # Field name made lowercase.
-    hiredate = models.DateTimeField(db_column='HireDate', blank=True, null=True)  # Field name made lowercase.
-    address = models.CharField(db_column='Address', max_length=60, blank=True, null=True)  # Field name made lowercase.
-    city = models.CharField(db_column='City', max_length=15, blank=True, null=True)  # Field name made lowercase.
-    region = models.CharField(db_column='Region', max_length=15, blank=True, null=True)  # Field name made lowercase.
-    postalcode = models.CharField(db_column='PostalCode', max_length=10, blank=True, null=True)  # Field name made lowercase.
-    country = models.CharField(db_column='Country', max_length=15, blank=True, null=True)  # Field name made lowercase.
-    homephone = models.CharField(db_column='HomePhone', max_length=24, blank=True, null=True)  # Field name made lowercase.
-    extension = models.CharField(db_column='Extension', max_length=4, blank=True, null=True)  # Field name made lowercase.
-    photo = models.CharField(db_column='Photo', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    notes = models.TextField(db_column='Notes', blank=True, null=True)  # Field name made lowercase.
-    reportsto = models.IntegerField(db_column='ReportsTo', blank=True, null=True)  # Field name made lowercase.
-    photopath = models.CharField(db_column='PhotoPath', max_length=255, blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'employees'
-
 class Orders(models.Model):
     orderid = models.AutoField(db_column='OrderID', primary_key=True)  # Field name made lowercase.
     customername = models.CharField(db_column='CustomerName', max_length=45)  # Field name made lowercase.
@@ -79,3 +55,54 @@ class Products(models.Model):
     class Meta:
         managed = False
         db_table = 'products'
+
+class Employees(models.Model):
+    employeeid = models.AutoField(db_column='EmployeeID', primary_key=True)
+# Field name made lowercase.
+    lastname = models.CharField(db_column='LastName', max_length=20)  # Field name made lowercase.
+    firstname = models.CharField(db_column='FirstName', max_length=10)  # Field name made lowercase.
+    title = models.CharField(db_column='Title', max_length=30, blank=True, null=True)  # Field name made lowercase.
+    titleofcourtesy = models.CharField(db_column='TitleOfCourtesy', max_length=25, blank=True, null=True)  # Field name made lowercase.
+    birthdate = models.DateTimeField(db_column='BirthDate', blank=True, null=True)  # Field name made lowercase.
+    hiredate = models.DateTimeField(db_column='HireDate', blank=True, null=True)  # Field name made lowercase.
+    address = models.CharField(db_column='Address', max_length=60, blank=True, null=True)  # Field name made lowercase.
+    city = models.CharField(db_column='City', max_length=15, blank=True, null=True)  # Field name made lowercase.
+    region = models.CharField(db_column='Region', max_length=15, blank=True,
+null=True)  # Field name made lowercase.
+    postalcode = models.CharField(db_column='PostalCode', max_length=10, blank=True, null=True)  # Field name made lowercase.
+    country = models.CharField(db_column='Country', max_length=15, blank=True, null=True)  # Field name made lowercase.
+    homephone = models.CharField(db_column='HomePhone', max_length=24, blank=True, null=True)  # Field name made lowercase.
+    extension = models.CharField(db_column='Extension', max_length=4, blank=True, null=True)  # Field name made lowercase.
+    photo = models.CharField(db_column='Photo', max_length=255, blank=True, null=True)  # Field name made lowercase.
+    notes = models.TextField(db_column='Notes', blank=True, null=True)  # Field name made lowercase.
+    reportsto = models.IntegerField(db_column='ReportsTo', blank=True, null=True)  # Field name made lowercase.
+    photopath = models.CharField(db_column='PhotoPath', max_length=255, blank=True, null=True)  # Field name made lowercase.
+    department = models.CharField(db_column='Department', max_length=45, blank=True, null=True)  # Field name made lowercase.
+    position = models.CharField(db_column='Position', max_length=45, blank=True, null=True)  # Field name made lowercase.
+    email = models.CharField(db_column='Email', max_length=45, blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'employees'
+
+class Employeestask(models.Model):
+    employeeid = models.IntegerField()
+    job = models.CharField(max_length=200, blank=True, null=True)
+    dailyreport = models.CharField(max_length=200, blank=True, null=True)
+    notes = models.CharField(max_length=200, blank=True, null=True)
+    enduptime = models.DateTimeField(blank=True, null=True)
+    employeestaskcol = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'employeestask'
+
+class Department(models.Model):
+    id = models.CharField(primary_key=True, max_length=45)
+    name = models.CharField(max_length=45)
+    group = models.CharField(max_length=45)
+    mainproject = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'department'

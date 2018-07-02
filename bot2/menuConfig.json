@@ -1,0 +1,32 @@
+{
+    "main":{
+        "產品":"products",
+        "會員":"members",
+        "機器人":"carMenu",
+        "訂單":"orders",
+        "離開":"exit"
+    },
+
+    "engMenu":{
+        "Function4":"products",
+        "Task management":"Task management",
+        "AGV manage system":"carMenu",
+        "Order inquiry system":"orders",
+        "Log out":"Log out"
+    },
+    
+    "orders":{
+        "main": {
+            "查詢/修改": "ordersselect",
+            "新增": "ordersnew",
+            "離開": "ordersquit"
+        },
+        "select": {
+            "最近的資料": "OrderID",
+            "根據客戶名稱": "CustomerName",
+            "根據訂單成立日期": "OrderDate",
+            "根據訂單配送日期": "ShippedDate",
+            "是否完成訂單": "Complete"
+        }
+    }  
+}

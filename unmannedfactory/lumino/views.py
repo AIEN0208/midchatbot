@@ -1,34 +1,45 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.core import serializers
-from .models import Employees
-from .models import Products
+from rest_framework import viewsets
+import json
+
+import lumino.models as models
+# from .models import Products
 from .models import Orders
 from .models import OrdersDetail
-import json
-from .models import Drivelesscar as dr
-from lumino.models import Drivelesscar
-from lumino.serializers import DrivelesscarSerializer
-from .serializers import ProductsSerializer
-from .serializers import OrdersSerializer
-from .serializers import OrdersDetailSerializer
-from rest_framework import viewsets
+# from lumino.models import Drivelesscar
+from lumino.models import Drivelesscar as dr
+
+import lumino.serializers as serializers
+# from lumino.serializers import DrivelesscarSerializer
+# from .serializers import ProductsSerializer
+# from .serializers import OrdersSerializer
+# from .serializers import OrdersDetailSerializer
 
 class ProductsViewSet(viewsets.ModelViewSet):
-    queryset = Products.objects.all()
-    serializer_class = ProductsSerializer
+    queryset = models.Products.objects.all()
+    serializer_class = serializers.ProductsSerializer
 
 class OrdersViewSet(viewsets.ModelViewSet):
-    queryset = Orders.objects.all()
-    serializer_class = OrdersSerializer
+    queryset = models.Orders.objects.all()
+    serializer_class = serializers.OrdersSerializer
 
 class OrdersDetailViewSet(viewsets.ModelViewSet):
-    queryset = OrdersDetail.objects.all()
-    serializer_class = OrdersDetailSerializer
+    queryset = models.OrdersDetail.objects.all()
+    serializer_class = serializers.OrdersDetailSerializer
 
 class DrivelesscarViewSet(viewsets.ModelViewSet):
-    queryset = Drivelesscar.objects.all()
-    serializer_class = DrivelesscarSerializer
+    queryset = models.Drivelesscar.objects.all()
+    serializer_class = serializers.DrivelesscarSerializer
+
+class EmployeesViewSet(viewsets.ModelViewSet):
+    queryset = models.Employees.objects.all()
+    serializer_class = serializers.EmployeesSerializer
+
+class EmployeestaskViewSet(viewsets.ModelViewSet):
+    queryset = models.Employeestask.objects.all()
+    serializer_class = serializers.EmployeestaskSerializer
 
 # Create your views here.
 def index(request):
