@@ -484,12 +484,15 @@ DROP TABLE IF EXISTS `products`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `products` (
-  `ProductID` int(11) NOT NULL AUTO_INCREMENT,
-  `ProductName` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `UnitPrice` int(11) NOT NULL,
-  `Amount` int(11) NOT NULL,
-  PRIMARY KEY (`ProductID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `productID` int(11) NOT NULL,
+  `productName` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount` int(11) NOT NULL,
+  `shelves` varchar(2) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `flavor` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `size` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `unitprice` int(11) NOT NULL,
+  PRIMARY KEY (`productID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -498,7 +501,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Origin Yogurt',300,90),(2,'Orange Yogurt',800,81),(3,'Grape Yogurt',1200,92);
+INSERT INTO `products` VALUES (1,'greek',100,'A','greek','900g',100),(2,'vanilla',100,'B','vanilla','900g',100),(3,'blueberry',100,'C','blueberry','900g',100),(4,'strawberry',100,'D','strawberry','900g',100),(5,'grape',100,'E','grape','900g',100),(6,'greek_kid',50,'A','greek','170g',40),(7,'vanilla_kid',50,'B','vanilla','170g',40),(8,'blueberry_kid',50,'C','blueberry','170g',40),(9,'strawberry_kid',50,'D','strawberry','170g',40),(10,'grape_kid',50,'E','grape','170g',40);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -511,4 +514,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-01 22:33:11
+-- Dump completed on 2018-07-02 19:11:09

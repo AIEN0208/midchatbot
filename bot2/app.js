@@ -108,4 +108,4 @@ bot.dialog('Main menu', [
 eval(fs.readFileSync('agvs.js').toString());
 eval(fs.readFileSync('orders.js').toString());
 eval(fs.readFileSync('task.js').toString());
-// eval(fs.readFileSync('Function4.js').toString());
+eval(fs.readFileSync('products.js').toString());
