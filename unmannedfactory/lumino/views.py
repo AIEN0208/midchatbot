@@ -103,7 +103,7 @@ def getjson(request):
 
 # product
 from django.views.decorators.csrf import csrf_exempt
-from models import Products
+from .models import Products
 @csrf_exempt
 def getProduct(request):
     pageTitle="#"
