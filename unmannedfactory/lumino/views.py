@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from django.core import serializers
+from django.core import serializers as asserializersForORM
 from rest_framework import viewsets
 
 import json
@@ -108,7 +108,7 @@ from .models import Products
 def getProduct(request):
     pageTitle="#"
     if (request.method == "GET"):
-        data = serializers.serialize("json", Products.objects.all())
+        data = asserializersForORM.serialize("json", Products.objects.all())
         allDatasOfProduct= json.loads(data)
         return JsonResponse(allDatasOfProduct, safe=False)
     
