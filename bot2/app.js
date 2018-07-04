@@ -46,9 +46,9 @@ bot.dialog('Login', [
     function (session, args) {
         var prompText;
         if (args == "failed") {
-            promptText = "Please try again.";
+            promptText = "請重新輸入";
         } else {
-            var promptText = "Welcom to the UMF management system. Please let me check your identification.(pwd: **98401**)";
+            var promptText = "歡迎來到Greek優格工廠管理系統。請輸入您的id密碼(pwd: **98401**)以供我驗證身分。";
         }
         builder.Prompts.text(session, promptText);
     },
@@ -64,14 +64,14 @@ bot.dialog('Login', [
             console.log(employees[0].employeeid);
             for (i = 0; i < employees.length; i++) {
                 if (employees[i].postalcode == pwd) {
-                    session.send("Identity confirmed");
-                    session.send(`Welcome aboard, **${employees[i].titleofcourtesy} ${employees[i].firstname} ${employees[i].lastname}**`);
+                    session.send("身分確認");
+                    session.send(`早安, **${employees[i].titleofcourtesy} ${employees[i].firstname} ${employees[i].lastname}**`);
                     var confirmed = 1;
                     break;
                 }
             }
             if (!confirmed) {
-                session.endDialog("Authentication failed.");
+                session.endDialog("身分驗證失敗");
                 session.replaceDialog("Login", "failed");
             } else {
                 session.userData.identity = employees[i].employeeid;
@@ -90,15 +90,15 @@ bot.dialog('Main menu', [
         if (identity == 0) {
             session.replaceDialog("Login")
         } else if (identity == 2) {
-            builder.Prompts.choice(session, "Here are the authorities you have.", "AGV manage system|Order inquiry system|Task management|Function4|Log out", { listStyle: builder.ListStyle.button });
+            builder.Prompts.choice(session, "請選擇管理系統", menu.Menu, { listStyle: builder.ListStyle.button });
         } else if (identity == 5) {
-            builder.Prompts.choice(session, "Here are the authorities you have.", "AGV manage system|Order inquiry system|Task management|Function4|Log out", { listStyle: builder.ListStyle.button });
+            builder.Prompts.choice(session, menu.Menu, { listStyle: builder.ListStyle.button });
         } else {
-            builder.Prompts.choice(session, "Here are the authorities you have.", "AGV manage system|Order inquiry system|Task management|Function4|Log out", { listStyle: builder.ListStyle.button });
+            builder.Prompts.choice(session, menu.Menu, { listStyle: builder.ListStyle.button });
         }
     },
     function (session, results) {
-        session.beginDialog(menu.engMenu[results.response.entity]);
+        session.beginDialog(menu.Menu[results.response.entity]);
     }
 ]).triggerAction({
     matches: /Main menu/i

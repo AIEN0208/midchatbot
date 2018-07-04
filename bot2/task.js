@@ -271,7 +271,7 @@ bot.dialog("Efficiency Report", function (session) {
 
 bot.dialog("Log out", function (session) {
     session.userData.identity = 0;
-    session.endDialog(`System offline. See you, **${session.userData.nameandtitle}**.`);
+    session.endDialog(`系統已登出。 祝您有美好的一天, **${session.userData.nameandtitle}**.`);
 }).triggerAction({
     matches: /Log out/i
 });
