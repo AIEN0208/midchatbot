@@ -6,7 +6,7 @@ from rest_framework import viewsets
 import json
 
 import lumino.models as models
-# from .models import Products
+from .models import Products
 from .models import Orders
 from .models import OrdersDetail
 # from lumino.models import Drivelesscar
@@ -79,13 +79,14 @@ def orders(request):
     carrefourprice = 0
     rtmartprice = 0
     for order in orders:
-        totalprice += order.totalprice
-        if order.customername == 'Costco':
-            costcoprice += order.totalprice
-        elif order.customername == 'Carrefour':
-            carrefourprice += order.totalprice
-        elif order.customername == 'RT-Mart':
-            rtmartprice += order.totalprice
+        if order.status != 'Canceled':
+            totalprice += order.totalprice
+            if order.customername == 'Costco':
+                costcoprice += order.totalprice
+            elif order.customername == 'Carrefour':
+                carrefourprice += order.totalprice
+            elif order.customername == 'RT-Mart':
+                rtmartprice += order.totalprice
 
     totaltarget = 100000
     costcotarget = 50000

@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `yogurt` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
+USE `yogurt`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: yogurt
@@ -333,7 +335,7 @@ CREATE TABLE `drivelesscar` (
   `status` varchar(45) NOT NULL,
   `battery` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -405,7 +407,7 @@ CREATE TABLE `employeestask` (
   `enduptime` datetime DEFAULT NULL,
   `employeestaskcol` varchar(45) CHARACTER SET latin1 DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -431,9 +433,9 @@ CREATE TABLE `orders` (
   `OrderDate` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
   `ShippedDate` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
   `TotalPrice` int(11) NOT NULL,
-  `Complete` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Status` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`OrderID`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -442,7 +444,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,'Costco','06-20','06-26',5400,'完成'),(2,'Carrefour','06-26','06-30',3600,'完成'),(3,'Costco','06-30','07-03',1200,'完成'),(4,'Costco','06-27','06-30',3000,'完成'),(5,'RT-Mart','06-27','06-30',1800,'完成'),(6,'RT-Mart','06-27','07-01',2700,'完成'),(7,'Costco','06-30','07-03',3600,'完成'),(8,'Carrefour','06-27','07-03',9800,'完成'),(9,'Carrefour','06-28','07-03',5200,'完成'),(10,'Costco','06-28','07-02',4600,'完成'),(11,'Carrefour','06-28','07-05',10000,'完成'),(12,'RT-Mart','06-29','07-06',6000,'未完成'),(13,'Costco','06-29','07-06',14000,'未完成');
+INSERT INTO `orders` VALUES (1,'Costco','06-20','06-26',5400,'Complete'),(2,'Carrefour','06-26','06-30',3600,'Complete'),(3,'Costco','06-30','07-03',1200,'Complete'),(4,'Costco','06-27','06-30',3000,'Complete'),(5,'RT-Mart','06-27','06-30',1800,'Complete'),(6,'RT-Mart','06-27','07-01',2700,'Complete'),(7,'Costco','06-30','07-03',3600,'Complete'),(8,'Carrefour','06-27','07-03',9800,'Complete'),(9,'Carrefour','06-28','07-03',5200,'Complete'),(10,'Costco','06-28','07-02',4600,'Complete'),(11,'Carrefour','06-28','07-05',10000,'Complete'),(12,'RT-Mart','06-30','07-07',4000,'Complete'),(13,'Costco','06-29','07-06',14000,'Canceled'),(14,'RT-Mart','07-04','07-10',3800,'Complete'),(15,'Costco','07-05','07-12',3200,'Complete'),(16,'Costco','07-09','07-15',5000,'onGoing'),(17,'Costco','07-07','07-15',4600,'onGoing'),(18,'RT-Mart','07-08','07-12',4000,'onGoing'),(19,'Costco','07-08','07-15',4000,'onGoing'),(20,'Costco','07-05','07-16',10000,'onGoing'),(21,'Costco','07-08','07-16',3600,'onGoing');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -463,7 +465,7 @@ CREATE TABLE `orders_detail` (
   `SubtotalPrice` int(11) NOT NULL,
   `Status` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`DetailID`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -472,7 +474,7 @@ CREATE TABLE `orders_detail` (
 
 LOCK TABLES `orders_detail` WRITE;
 /*!40000 ALTER TABLE `orders_detail` DISABLE KEYS */;
-INSERT INTO `orders_detail` VALUES (1,1,1,'Origin Yogurt',300,2,600,'Complete'),(2,1,3,'Grape Yogurt',1200,4,4800,'Complete'),(3,2,3,'Grape Yogurt',1200,3,3600,'Complete'),(4,3,3,'Grape Yogurt',1200,1,1200,'Complete'),(5,4,2,'Orange Yogurt',800,3,2400,'Complete'),(6,4,1,'Origin Yogurt',300,2,600,'Complete'),(7,5,1,'Origin Yogurt',300,2,600,'Complete'),(8,5,3,'Grape Yogurt',1200,1,1200,'Complete'),(9,6,2,'Orange Yogurt',800,2,1600,'Canceled'),(10,6,3,'Grape Yogurt',1200,1,1200,'Canceled'),(11,7,1,'Origin Yogurt',300,2,600,'Canceled'),(12,7,2,'Orange Yogurt',800,3,2400,'Complete'),(13,7,3,'Grape Yogurt',1200,1,1200,'Complete'),(14,6,1,'Origin Yogurt',300,1,300,'Complete'),(15,6,2,'Orange Yogurt',800,3,2400,'Complete'),(16,9,2,'Orange Yogurt',800,2,1600,'Complete'),(17,9,3,'Grape Yogurt',1200,3,3600,'Complete'),(18,8,2,'Orange Yogurt',800,10,8000,'Complete'),(19,8,1,'Origin Yogurt',300,6,1800,'Complete'),(20,10,2,'Orange Yogurt',800,2,1600,'Canceled'),(21,10,3,'Grape Yogurt',1200,3,3600,'Canceled'),(22,10,2,'Orange Yogurt',800,2,1600,'Complete'),(23,10,1,'Origin Yogurt',300,10,3000,'Complete'),(24,10,2,'Orange Yogurt',800,10,8000,'Canceled'),(25,11,2,'Orange Yogurt',800,5,4000,'Complete'),(26,11,3,'Grape Yogurt',1200,5,6000,'Complete'),(27,12,3,'Grape Yogurt',1200,5,6000,'onGoing'),(28,13,3,'Grape Yogurt',1200,5,6000,'onGoing'),(29,13,2,'Orange Yogurt',800,10,8000,'onGoing');
+INSERT INTO `orders_detail` VALUES (1,1,1,'Origin Yogurt',300,2,600,'Complete'),(2,1,3,'Grape Yogurt',1200,4,4800,'Complete'),(3,2,3,'Grape Yogurt',1200,3,3600,'Complete'),(4,3,3,'Grape Yogurt',1200,1,1200,'Complete'),(5,4,2,'Orange Yogurt',800,3,2400,'Complete'),(6,4,1,'Origin Yogurt',300,2,600,'Complete'),(7,5,1,'Origin Yogurt',300,2,600,'Complete'),(8,5,3,'Grape Yogurt',1200,1,1200,'Complete'),(9,6,2,'Orange Yogurt',800,2,1600,'Canceled'),(10,6,3,'Grape Yogurt',1200,1,1200,'Canceled'),(11,7,1,'Origin Yogurt',300,2,600,'Canceled'),(12,7,2,'Orange Yogurt',800,3,2400,'Complete'),(13,7,3,'Grape Yogurt',1200,1,1200,'Complete'),(14,6,1,'Origin Yogurt',300,1,300,'Complete'),(15,6,2,'Orange Yogurt',800,3,2400,'Complete'),(16,9,2,'Orange Yogurt',800,2,1600,'Complete'),(17,9,3,'Grape Yogurt',1200,3,3600,'Complete'),(18,8,2,'Orange Yogurt',800,10,8000,'Complete'),(19,8,1,'Origin Yogurt',300,6,1800,'Complete'),(20,10,2,'Orange Yogurt',800,2,1600,'Canceled'),(21,10,3,'Grape Yogurt',1200,3,3600,'Canceled'),(22,10,2,'Orange Yogurt',800,2,1600,'Complete'),(23,10,1,'Origin Yogurt',300,10,3000,'Complete'),(24,10,2,'Orange Yogurt',800,10,8000,'Canceled'),(25,11,2,'Orange Yogurt',800,5,4000,'Complete'),(26,11,3,'Grape Yogurt',1200,5,6000,'Complete'),(27,12,3,'Grape Yogurt',1200,5,6000,'Canceled'),(28,13,3,'Grape Yogurt',1200,5,6000,'Canceled'),(29,13,2,'Orange Yogurt',800,10,8000,'Canceled'),(30,14,3,'blueberry',1000,3,3000,'Complete'),(31,14,9,'strawberry_kid',400,2,800,'Complete'),(32,15,6,'greek_kid',400,3,1200,'Complete'),(33,15,2,'vanilla',1000,2,2000,'Complete'),(34,12,3,'blueberry',1000,3,3000,'Canceled'),(35,12,1,'greek',1000,2,2000,'Canceled'),(36,12,8,'blueberry_kid',400,3,1200,'Canceled'),(37,12,5,'grape',1000,2,2000,'Canceled'),(38,12,4,'strawberry',1000,2,2000,'Complete'),(39,12,5,'grape',1000,2,2000,'Complete'),(40,16,4,'strawberry',1000,3,3000,'onGoing'),(41,16,8,'blueberry_kid',400,5,2000,'onGoing'),(42,16,4,'strawberry',1000,3,3000,'Canceled'),(43,16,8,'blueberry_kid',400,5,2000,'Canceled'),(44,17,2,'vanilla',1000,3,3000,'onGoing'),(45,17,9,'strawberry_kid',400,4,1600,'onGoing'),(46,18,6,'greek_kid',400,10,4000,'onGoing'),(47,19,6,'greek_kid',400,10,4000,'Canceled'),(48,19,4,'strawberry',1000,2,2000,'onGoing'),(49,19,7,'vanilla_kid',400,5,2000,'onGoing'),(50,20,1,'greek',1000,10,10000,'onGoing'),(51,21,1,'greek',1000,10,10000,'Canceled'),(52,21,5,'grape',1000,2,2000,'onGoing'),(53,21,9,'strawberry_kid',400,4,1600,'onGoing');
 /*!40000 ALTER TABLE `orders_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -501,7 +503,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'greek',100,'A','greek','900g',100),(2,'vanilla',100,'B','vanilla','900g',100),(3,'blueberry',100,'C','blueberry','900g',100),(4,'strawberry',100,'D','strawberry','900g',100),(5,'grape',100,'E','grape','900g',100),(6,'greek_kid',50,'A','greek','170g',40),(7,'vanilla_kid',50,'B','vanilla','170g',40),(8,'blueberry_kid',50,'C','blueberry','170g',40),(9,'strawberry_kid',50,'D','strawberry','170g',40),(10,'grape_kid',50,'E','grape','170g',40);
+INSERT INTO `products` VALUES (1,'greek',100,'A','greek','900g',1000),(2,'vanilla',98,'B','vanilla','900g',1000),(3,'blueberry',97,'C','blueberry','900g',1000),(4,'strawberry',100,'D','strawberry','900g',1000),(5,'grape',100,'E','grape','900g',1000),(6,'greek_kid',47,'A','greek','170g',400),(7,'vanilla_kid',50,'B','vanilla','170g',400),(8,'blueberry_kid',50,'C','blueberry','170g',400),(9,'strawberry_kid',48,'D','strawberry','170g',400),(10,'grape_kid',50,'E','grape','170g',400);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -514,4 +516,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-02 19:11:09
+-- Dump completed on 2018-07-04 21:01:51

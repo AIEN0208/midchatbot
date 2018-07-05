@@ -74,8 +74,8 @@ bot.dialog('ordersselect', [
             builder.Prompts.text(session, "請問您要查詢哪一天成立的訂單呢?")
         } else if (filter == "ShippedDate") {
             builder.Prompts.text(session, "請問您要查詢哪一天配送的訂單呢?")
-        } else if (filter == "Complete") {
-            builder.Prompts.choice(session, "請問您要查詢完成或者未完成的訂單?", ["已完成", "未完成"], { listStyle: builder.ListStyle.button })
+        } else if (filter == "Status") {
+            builder.Prompts.choice(session, "請問您要查詢完成或者未完成的訂單?", ["已完成", "未完成", "已刪除"], { listStyle: builder.ListStyle.button })
         }
     },
     function (session, results) {
@@ -108,10 +108,17 @@ bot.dialog('ordersselect', [
                     targetorder.push(order)
                 }
             })
-        } else if (filter == "Complete") {
-            complete = results.response.entity
+        } else if (filter == "Status") {
+            status = results.response.entity
+            if (status == '已完成'){
+                s = 'Complete'
+            } else if (status == '未完成') {
+                s = 'onGoing'
+            } else if (status == '已刪除') {
+                s = 'Canceled'
+            }
             getorders.forEach(order => {
-                if (order.complete == complete) {
+                if (order.status == s) {
                     targetorder.push(order)
                 }
             })
@@ -126,7 +133,7 @@ bot.dialog('ordersselect', [
             OrderDate = JSON.stringify(order.orderdate)
             ShippedDate = JSON.stringify(order.shippeddate)
             TotalPrice = JSON.stringify(order.totalprice)
-            Complete = JSON.stringify(order.complete)
+            Status = JSON.stringify(order.status)
             var items = [];
             getordersdetail.forEach(detail => {
                 if (detail.orderid == OrderID) {
@@ -150,7 +157,7 @@ bot.dialog('ordersselect', [
                 .facts([
                     builder.Fact.create(session, OrderDate, "成立日期"),
                     builder.Fact.create(session, ShippedDate, "配送日期"),
-                    builder.Fact.create(session, Complete, "訂單狀態"),
+                    builder.Fact.create(session, Status, "訂單狀態"),
                 ])
                 .items(items)
                 .total(`$${TotalPrice}`)
@@ -191,7 +198,16 @@ bot.dialog('ordersnew', [
         var orderdate = neworder.orderdate
         var shippeddate = neworder.shippeddate
         var totalprice = 0
-        for (i = 0; i < newdetail.length; i++) {
+
+        var getorders
+        var ordersapi = {
+            method: "GET",
+            url: "http://localhost:8000/api/orders/",
+        }
+        request(ordersapi, function (error, response, result) {
+            getorders = JSON.parse(result)
+
+            for (i = 0; i < newdetail.length; i++) {
             id = parseInt(newdetail[i].product[0])
             unitprice = parseInt(getproducts[id - 1].unitprice)
             amount = newdetail[i].amount
@@ -214,7 +230,7 @@ bot.dialog('ordersnew', [
             }
             request(options, function (error, response, result) {
                 if (!error && response.statusCode == 201) {
-                    console.log("success")
+                    console.log("Success")
                 } else {
                     console.log("GG")
                 }
@@ -229,17 +245,18 @@ bot.dialog('ordersnew', [
                 orderdate: orderdate,
                 shippeddate: shippeddate,
                 totalprice: totalprice,
-                complete: "未完成"
+                status: "onGoing"
             },
             json: true
         }
         request(options, function (error, response, result) {
             if (!error && response.statusCode == 201) {
-                console.log("success")
+                session.send("新增訂單已完成")
             } else {
                 console.log("GG")
             }
             session.replaceDialog('orders', { reprompt: true })
+        })
         })
     }
 ])
@@ -274,7 +291,7 @@ var customername
 var orderdate
 var shippeddate
 var totalprice
-var complete
+var status
 
 bot.dialog('ordersupdate', [
     function (session) {
@@ -286,7 +303,7 @@ bot.dialog('ordersupdate', [
                 orderdate = order.orderdate
                 shippeddate = order.shippeddate
                 totalprice = order.totalprice
-                complete = order.complete
+                status = order.status
             }
         })
         builder.Prompts.text(session, `目前的客戶名稱為${customername}，請輸入更新的客戶名稱，若不需更改請輸入"0"。`)
@@ -307,18 +324,25 @@ bot.dialog('ordersupdate', [
         if (results.response != 0) {
             shippeddate = results.response
         }
-        builder.Prompts.choice(session, `目前的訂單為"${complete}"，請選擇更新狀態。`, ["完成", "未完成"], { listStyle: builder.ListStyle.button })
+        builder.Prompts.choice(session, `目前的訂單為"${status}"，請選擇更新狀態。`, ["完成", "未完成", "刪除"], { listStyle: builder.ListStyle.button })
     },
     function (session, results) {
-        complete = results.response.entity
+        status = results.response.entity
+        if (status == '完成'){
+            s = 'Complete'
+        } else if (status == '未完成') {
+            s = 'onGoing'
+        } else if (status == '刪除') {
+            s = 'Canceled'
+        }
         builder.Prompts.choice(session, "請問是否需要更改訂單明細?", ["更改訂單明細", "不須更改"], { listStyle: builder.ListStyle.button })
     },
     function (session, results) {
         if (results.response.entity == "更改訂單明細") {
             getordersdetail.forEach(detail => {
+                // 更改訂單明細者，cancel原本detail
                 if (detail.orderid == orderid) {
                     detailid = detail.detailid
-                    // 更改訂單明細者，cancel原本detail
                     var options = {
                         method: "PUT",
                         url: "http://localhost:8000/api/ordersdetail/" + detailid + "/",
@@ -355,24 +379,24 @@ bot.dialog('ordersupdate', [
                     orderdate: orderdate,
                     shippeddate: shippeddate,
                     totalprice: totalprice,
-                    complete: complete,
+                    status: s,
                 },
                 json: true
             }
             request(options, function (error, response, result) {
                 if (!error && response.statusCode == 200) {
-                    console.log("success")
+                    session.send("已成功更新訂單")
                 } else {
                     console.log("GG")
                 }
                 session.replaceDialog('orders', { reprompt: true })
             })
-            if (complete = "完成") {
+            if (status = "完成") {
                 getordersdetail.forEach(detail => {
                     if (detail.orderid == orderid) {
                         detailid = detail.detailid
                         if (detail.status != 'Canceled') {
-                            // 狀態為完成者，更改detail狀態
+                            // 更改status者，更改detail狀態
                             var options = {
                                 method: "PUT",
                                 url: "http://localhost:8000/api/ordersdetail/" + detailid + "/",
@@ -384,18 +408,19 @@ bot.dialog('ordersupdate', [
                                     unitprice: detail.unitprice,
                                     quantity: detail.quantity,
                                     subtotalprice: detail.subtotalprice,
-                                    status: "Complete"
+                                    status: s
                                 },
                                 json: true
                             }
                             request(options, function (error, response, result) {
                                 if (!error) {
-                                    console.log("success complete detail" + response.statusCode)
+                                    console.log("success")
                                 } else {
                                     console.log("GG")
                                 }
                             })
                         }
+                        //更改商品庫存量
                         getproducts.forEach(product => {
                             if (product.productid == detail.productid) {
                                 productid = product.productid
@@ -405,9 +430,13 @@ bot.dialog('ordersupdate', [
                                     url: "http://localhost:8000/api/products/" + productid + "/",
                                     headers: { 'content-type': 'application/json' },
                                     body: {
+                                        productid: product.productid,
                                         productname: product.productname,
-                                        unitprice: product.unitprice,
-                                        amount: newamount
+                                        amount: newamount,
+                                        shelves: product.shelves,
+                                        flavor:product.flavor,
+                                        size:product.size,
+                                        unitprice: product.unitprice
                                     },
                                     json: true
                                 }
@@ -467,13 +496,13 @@ bot.dialog('ordersupdate', [
                 orderdate: orderdate,
                 shippeddate: shippeddate,
                 totalprice: totalprice,
-                complete: complete
+                status: s
             },
             json: true
         }
         request(options, function (error, response, result) {
             if (!error && response.statusCode == 200) {
-                console.log("success update order")
+                session.send("成功更新訂單資訊")
             } else {
                 console.log(response.statusCode)
             }
@@ -508,5 +537,6 @@ bot.dialog('updatedetail', [
         session.beginDialog("updatedetail")
     }
 ])
+
     // End order==================================================================
     // End Dialog function of 產品 ================================================
