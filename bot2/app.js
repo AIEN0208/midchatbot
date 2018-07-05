@@ -48,7 +48,7 @@ bot.dialog('Login', [
         if (args == "failed") {
             promptText = "請重新輸入";
         } else {
-            var promptText = "歡迎來到Greek優格工廠管理系統。請輸入您的id密碼(pwd: **98401**)以供我驗證身分。";
+            var promptText = "歡迎來到Greek優格工廠管理系統。請輸入您的id密碼以供我驗證身分。";
         }
         builder.Prompts.text(session, promptText);
     },
@@ -102,6 +102,13 @@ bot.dialog('Main menu', [
     }
 ]).triggerAction({
     matches: /Main menu/i
+});
+
+bot.dialog("Log out", function (session) {
+    session.userData.identity = 0;
+    session.endDialog(`系統已登出。 祝您有美好的一天, **${session.userData.nameandtitle}**.`);
+}).triggerAction({
+    matches: /Log out/i
 });
 
 // file is included here:
