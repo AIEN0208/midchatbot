@@ -30,7 +30,7 @@ var bot = new builder.UniversalBot(connector, [
                 { url: 'https://www.youtube.com/watch?v=au8lGDV-1Es' }
             ])
             .buttons([
-                builder.CardAction.openUrl(session, "http://localhost:8000/", "Learn more")
+                builder.CardAction.openUrl(session, menu.url, "Learn more")
             ])
             // .autostart(true)
             ;
@@ -56,7 +56,7 @@ bot.dialog('Login', [
         var pwd = results.response;
         var options = {
             method: 'GET',
-            url: 'http://localhost:8000/api/employees/'
+            url: menu.url + 'api/employees/'
         };
         request(options, function (error, response, body) {
             var employees = JSON.parse(body);

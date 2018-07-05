@@ -22,7 +22,7 @@ var cars
 var car
 var carapi = {
     method: "GET",
-    url: "http://localhost:8000/api/drivelesscar/?format=json"
+    url: menu.url + "api/drivelesscar/?format=json"
 }
 request(carapi, function (error, response, body) {
     car = JSON.parse(body)
@@ -62,7 +62,7 @@ var ingwhobat = /.*哪幾台.*正在充電.*/
 function showTime() {
     var options = {
         method: "GET",
-        url: "http://localhost:8000/api/drivelesscar/?format=json"
+        url: menu.url + "api/drivelesscar/?format=json"
     }
     request(options, function (error, response, body) {
         car = JSON.parse(body)
@@ -75,7 +75,7 @@ function showTime() {
                 if (battery <= 5) {
                     var options = {
                         method: "PUT",
-                        url: "http://localhost:8000/api/drivelesscar/" + cars[i].id + "/",
+                        url: menu.url + "api/drivelesscar/" + cars[i].id + "/",
                         headers: { 'content-type': 'application/json' },
                         body: {
                             id: cars[i].id,
@@ -96,7 +96,7 @@ function showTime() {
                 else {
                     var options = {
                         method: "PUT",
-                        url: "http://localhost:8000/api/drivelesscar/" + car[i].id + "/",
+                        url: menu.url + "api/drivelesscar/" + car[i].id + "/",
                         headers: { 'content-type': 'application/json' },
                         body: {
                             id: car[i].id,
@@ -118,7 +118,7 @@ function showTime() {
                 battery = parseInt(cars[i].battery.split("%")[0])
                 var options = {
                     method: "PUT",
-                    url: "http://localhost:8000/api/drivelesscar/" + car[i].id + "/",
+                    url: menu.url + "api/drivelesscar/" + car[i].id + "/",
                     headers: { 'content-type': 'application/json' },
                     body: {
                         id: car[i].id,
@@ -140,7 +140,7 @@ function showTime() {
                 if(battery>=95){
                     var options = {
                         method: "PUT",
-                        url: "http://localhost:8000/api/drivelesscar/" + car[i].id + "/",
+                        url: menu.url + "api/drivelesscar/" + car[i].id + "/",
                         headers: { 'content-type': 'application/json' },
                         body: {
                             id: car[i].id,
@@ -160,7 +160,7 @@ function showTime() {
                 }else{
                     var options = {
                         method: "PUT",
-                        url: "http://localhost:8000/api/drivelesscar/" + car[i].id + "/",
+                        url: menu.url + "api/drivelesscar/" + car[i].id + "/",
                         headers: { 'content-type': 'application/json' },
                         body: {
                             id: car[i].id,
@@ -319,7 +319,7 @@ bot.dialog("carupdate", [
         var msg = new builder.Message(session)
         var carapi = {
             method: "GET",
-            url: "http://localhost:8000/api/drivelesscar/?format=json"
+            url: menu.url + "api/drivelesscar/?format=json"
         }
         request(carapi, function (error, response, body) {
             car = JSON.parse(body)
@@ -369,7 +369,7 @@ bot.dialog("carupdate", [
             if (car[i].id == carid) {
                 var options = {
                     method: "PUT",
-                    url: "http://localhost:8000/api/drivelesscar/" + carid + "/",
+                    url: menu.url + "api/drivelesscar/" + carid + "/",
                     headers: { 'content-type': 'application/json' },
                     body: {
                         id: carid,
@@ -422,7 +422,7 @@ bot.dialog("caradd", [
             for (i = 1; i < session.dialogData.carnumber + 1; i++) {
                 var options = {
                     method: "POST",
-                    url: "http://localhost:8000/api/drivelesscar/",
+                    url: menu.url + "api/drivelesscar/",
                     headers: { 'content-type': 'application/json' },
                     body: {
                         id: last + i,
@@ -471,7 +471,7 @@ bot.dialog("cardelete", [
         }else{
             var options = {
                 method: "DELETE",
-                url: "http://localhost:8000/api/drivelesscar/" + results.response + "/",
+                url: menu.url + "api/drivelesscar/" + results.response + "/",
             }
             request(options, function (error, response, body) {
                 if (!error && response.statusCode == 204) {
