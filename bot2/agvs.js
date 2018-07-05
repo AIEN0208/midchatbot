@@ -12,10 +12,12 @@ var works = []
 var rests = []
 var fixs = []
 var bats = []
+var ingbats = []
 var whoworking = []
 var whoresting = []
 var whofixing = []
 var whobating = []
+var whoingbating = []
 var cars
 var car
 var carapi = {
@@ -39,6 +41,9 @@ request(carapi, function (error, response, body) {
         } else if (work == '待充電') {
             bats.push(work)
             whobating.push(id)
+        } else if (work == '充電中'){
+            ingbats.push(work)
+            whoingbating.push(id)
         }
     }
 })
@@ -47,10 +52,12 @@ var working = /.*工作中.*/
 var resting = /.*休眠中.*/
 var fixing = /.*維修中.*/
 var bating = /.*待充電中.*/
+var inbating = /.*正在充電中.*/
 var whowork = /.*哪幾台.*工作.*/
 var whorest = /.*哪幾台.*休眠.*/
 var whofix = /.*哪幾台.*維修.*/
 var whobat = /.*哪幾台.*待充電.*/
+var ingwhobat = /.*哪幾台.*正在充電.*/
 
 function showTime() {
     var options = {
@@ -223,6 +230,10 @@ bot.dialog('carMenu', [
             session.send("現在有" + fixs.length + "台在維修中")
             session.replaceDialog("carMenu", { reprompt: true })
         }
+        else if ((results.response).match(inbating)) {
+            session.send("現在有" + ingbats.length + "台正在充電中")
+            session.replaceDialog("carMenu", { reprompt: true })
+        }
         else if ((results.response).match(whowork)) {
             session.send("現在有" + whoworking + "在工作中")
             session.replaceDialog("carMenu", { reprompt: true })
@@ -241,6 +252,15 @@ bot.dialog('carMenu', [
                 session.replaceDialog("carMenu", { reprompt: true })
             } else {
                 session.send("現在有" + whobating + "待充電")
+                session.replaceDialog("carMenu", { reprompt: true })
+            }
+        }
+        else if ((results.response).match(ingwhobat)) {
+            if (whoingbating.length == 0){
+                session.send("現在沒有車在充電中")
+                session.replaceDialog("carMenu", { reprompt: true })
+            }else{
+                session.send("現在有" + whoingbating + "正在充電中")
                 session.replaceDialog("carMenu", { reprompt: true })
             }
         }
@@ -307,13 +327,13 @@ bot.dialog("carupdate", [
         setTimeout(() => {
             builder.Prompts.text(session, "您想要修改哪一號車的狀態呢")
             msg.suggestedActions(builder.SuggestedActions.create(
-                session,[builder.CardAction.imBack(session, "返回", "返回")]
+                session,[builder.CardAction.imBack(session, "取消修改", "取消修改")]
             ))
             session.send(msg)
         }, 500);
     },
     function (session, results) {
-        if (results.response == "返回"){
+        if (results.response == "取消修改"){
             session.replaceDialog("carstatus")
         }else{
             session.dialogData.number = results.response
@@ -378,12 +398,12 @@ bot.dialog("caradd", [
         var msg = new builder.Message(session)
         builder.Prompts.text(session, "請問您想要新增幾台車？")
         msg.suggestedActions(builder.SuggestedActions.create(
-            session,[builder.CardAction.imBack(session, "返回", "返回")]
+            session,[builder.CardAction.imBack(session, "取消新增", "取消新增")]
         ))
         session.send(msg)
     },
     function (session, results) {
-        if (results.response == "返回"){
+        if (results.response == "取消新增"){
             session.replaceDialog("carstatus")
         }else{
             cars = []
@@ -441,12 +461,12 @@ bot.dialog("cardelete", [
         var msg = new builder.Message(session)
         builder.Prompts.text(session, "請問您想刪除哪一號車？")
         msg.suggestedActions(builder.SuggestedActions.create(
-            session,[builder.CardAction.imBack(session, "返回", "返回")]
+            session,[builder.CardAction.imBack(session, "取消刪除", "取消刪除")]
         ))
         session.send(msg)
     },
     function (session, results) {
-        if (results.response == "返回"){
+        if (results.response == "取消刪除"){
             session.replaceDialog("carstatus")
         }else{
             var options = {
