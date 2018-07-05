@@ -24,5 +24,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include(router.urls)),
     path('api/v1/products',views.getProduct,name="getProduct"),
-
+    path('api/v1/products/update',views.productUpdate,name="productUpdate"),
 ]
