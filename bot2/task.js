@@ -23,7 +23,7 @@ request(options, function (error, response, body) {
 
 bot.dialog('Task management', [
     function (session) {
-        builder.Prompts.choice(session, "請選擇以下功能.", "成員工作清單|工作時間確認|工作情況回報|工作效率回報", { listStyle: builder.ListStyle.button });
+        builder.Prompts.choice(session, "請選擇以下功能.", "成員工作清單|工作時間確認|工作情況回報|工作效率回報|回主選單", { listStyle: builder.ListStyle.button });
     },
     function (session, results) {
         // var choice = results.response.entity;
