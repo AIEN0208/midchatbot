@@ -24,7 +24,7 @@ class Orders(models.Model):
     orderdate = models.CharField(db_column='OrderDate', max_length=45)  # Field name made lowercase.
     shippeddate = models.CharField(db_column='ShippedDate', max_length=45)  # Field name made lowercase.
     totalprice = models.IntegerField(db_column='TotalPrice')  # Field name made lowercase.
-    complete = models.CharField(db_column='Complete', max_length=10)  # Field name made lowercase.
+    status = models.CharField(db_column='Status', max_length=45)  # Field name made lowercase.
 
     class Meta:
         managed = False

@@ -6,7 +6,7 @@ from rest_framework import viewsets
 import json
 
 import lumino.models as models
-# from .models import Products
+from .models import Products
 from .models import Orders
 from .models import OrdersDetail
 # from lumino.models import Drivelesscar
@@ -53,6 +53,18 @@ def carrobots(request):
     return render(request, "lumino/carrobots.html", locals())
 def members(request):
     pageTitle = "#"
+    jobset={}
+    
+    for i in range(6):
+        datas= models.Employeestask.objects.filter(employeeid=i)
+        jobs= []
+
+        for data in datas:
+            if(data.job):
+                jobs.append(data.job)
+
+        jobset['{}'.format(i)]= jobs
+
     return render(request, "lumino/members.html", locals())
 def products(request):
     pageTitle = "#"
@@ -67,13 +79,14 @@ def orders(request):
     carrefourprice = 0
     rtmartprice = 0
     for order in orders:
-        totalprice += order.totalprice
-        if order.customername == 'Costco':
-            costcoprice += order.totalprice
-        elif order.customername == 'Carrefour':
-            carrefourprice += order.totalprice
-        elif order.customername == 'RT-Mart':
-            rtmartprice += order.totalprice
+        if order.status != 'Canceled':
+            totalprice += order.totalprice
+            if order.customername == 'Costco':
+                costcoprice += order.totalprice
+            elif order.customername == 'Carrefour':
+                carrefourprice += order.totalprice
+            elif order.customername == 'RT-Mart':
+                rtmartprice += order.totalprice
 
     totaltarget = 100000
     costcotarget = 50000
