@@ -107,7 +107,71 @@ function showTime() {
                         }
                     })
                 }
-            } else {
+            }else if(cars[i].status == "待充電"){
+                battery = parseInt(cars[i].battery.split("%")[0])
+                var options = {
+                    method: "PUT",
+                    url: "http://localhost:8000/api/drivelesscar/" + car[i].id + "/",
+                    headers: { 'content-type': 'application/json' },
+                    body: {
+                        id: car[i].id,
+                        carid: car[i].id + "號",
+                        status: "充電中",
+                        battery: (battery + 5) + "%"
+                    },
+                    json: true
+                }
+                request(options, function (error, response, body) {
+                    if (!error && response.statusCode == 200) {
+                        console.log("ok")
+                    } else {
+                        console.log("no")
+                    }
+                })
+            }else if(cars[i].status == "充電中"){
+                battery = parseInt(cars[i].battery.split("%")[0])
+                if(battery>=95){
+                    var options = {
+                        method: "PUT",
+                        url: "http://localhost:8000/api/drivelesscar/" + car[i].id + "/",
+                        headers: { 'content-type': 'application/json' },
+                        body: {
+                            id: car[i].id,
+                            carid: car[i].id + "號",
+                            status: "充電完成",
+                            battery: "100%"
+                        },
+                        json: true
+                    }
+                    request(options, function (error, response, body) {
+                        if (!error && response.statusCode == 200) {
+                            console.log("ok")
+                        } else {
+                            console.log("no")
+                        }
+                    })
+                }else{
+                    var options = {
+                        method: "PUT",
+                        url: "http://localhost:8000/api/drivelesscar/" + car[i].id + "/",
+                        headers: { 'content-type': 'application/json' },
+                        body: {
+                            id: car[i].id,
+                            carid: car[i].id + "號",
+                            status: "充電中",
+                            battery: (battery + 5) + "%"
+                        },
+                        json: true
+                    }
+                    request(options, function (error, response, body) {
+                        if (!error && response.statusCode == 200) {
+                            console.log("ok")
+                        } else {
+                            console.log("no")
+                        }
+                    })
+                }
+            }else{
                 continue
             }
         }
@@ -215,7 +279,7 @@ bot.dialog("battery", [
 
 bot.dialog("carstatus", [
     function (session) {
-        builder.Prompts.choice(session, "請選擇您想要做的動作", "新增|刪除|修改", { listStyle: builder.ListStyle.button })
+        builder.Prompts.choice(session, "請選擇您想要做的動作", "新增|刪除|修改|返回", { listStyle: builder.ListStyle.button })
     },
     function (session, results) {
         if (results.response.entity == "新增") {
@@ -224,32 +288,58 @@ bot.dialog("carstatus", [
             session.beginDialog("cardelete")
         } else if (results.response.entity == "修改") {
             session.beginDialog("carupdate")
+        } else if (results.response.entity == "返回") {
+            session.replaceDialog("carMenu", { reprompt: true })
         }
     }
 ])
 
 bot.dialog("carupdate", [
     function (session) {
-        builder.Prompts.number(session, "您想要修改哪一號車的狀態呢")
+        var msg = new builder.Message(session)
+        var carapi = {
+            method: "GET",
+            url: "http://localhost:8000/api/drivelesscar/?format=json"
+        }
+        request(carapi, function (error, response, body) {
+            car = JSON.parse(body)
+        })
+        setTimeout(() => {
+            builder.Prompts.text(session, "您想要修改哪一號車的狀態呢")
+            msg.suggestedActions(builder.SuggestedActions.create(
+                session,[builder.CardAction.imBack(session, "返回", "返回")]
+            ))
+            session.send(msg)
+        }, 500);
     },
     function (session, results) {
-        session.dialogData.number = results.response
-        carid = session.dialogData.number
-        for (i = 0; i < car.length; i++) {
-            id = car[i].carid.split("號")[0]
-            if (results.response == id) {
-                if (car[i].status == "工作中") {
-                    session.send(id + "號車現在的狀態是工作中")
-                    builder.Prompts.choice(session, "您想要修改成什麼狀態?", "休眠中|維修中")
-                } else if (car[i].status == "休眠中") {
-                    session.send(id + "號車現在的狀態是休眠中")
-                    builder.Prompts.choice(session, "您想要修改成什麼狀態?", "工作中|維修中")
-                } else if (car[i].status == "維修中") {
-                    session.send(id + "號車現在的狀態是維修中")
-                    builder.Prompts.choice(session, "您想要修改成什麼狀態?", "工作中|休眠中")
-                } else {
-                    session.endDialog(id + "號車現在需要充電")
-                    session.replaceDialog("carMenu", { reprompt: true })
+        if (results.response == "返回"){
+            session.replaceDialog("carstatus")
+        }else{
+            session.dialogData.number = results.response
+            carid = session.dialogData.number
+            for (i = 0; i < car.length; i++) {
+                id = car[i].carid.split("號")[0]
+                if (results.response == id) {
+                    if (car[i].status == "工作中") {
+                        session.send(id + "號車現在的狀態是工作中")
+                        builder.Prompts.choice(session, "您想要修改成什麼狀態?", "休眠中|維修中")
+                    } else if (car[i].status == "休眠中") {
+                        session.send(id + "號車現在的狀態是休眠中")
+                        builder.Prompts.choice(session, "您想要修改成什麼狀態?", "工作中|維修中")
+                    } else if (car[i].status == "維修中") {
+                        session.send(id + "號車現在的狀態是維修中")
+                        builder.Prompts.choice(session, "您想要修改成什麼狀態?", "工作中|休眠中")
+                    } else if (car[i].status == "充電完成") {
+                        session.send(id + "號車現在已經充電完成")
+                        builder.Prompts.choice(session, "您想要修改成什麼狀態?", "工作中|休眠中|維修中")
+                    } else if (car[i].status == "充電中") {
+                        session.send(id + "號車現在正在充電，無法更改狀態")
+                        session.replaceDialog("carstatus")
+                    } else {
+                        session.endDialog(id + "號車現在需要充電")
+                        session.replaceDialog("carMenu", { reprompt: true })
+                    }
                 }
             }
         }
@@ -285,17 +375,26 @@ bot.dialog("carupdate", [
 
 bot.dialog("caradd", [
     function (session) {
-        builder.Prompts.number(session, "請問您想要新增幾台車？")
+        var msg = new builder.Message(session)
+        builder.Prompts.text(session, "請問您想要新增幾台車？")
+        msg.suggestedActions(builder.SuggestedActions.create(
+            session,[builder.CardAction.imBack(session, "返回", "返回")]
+        ))
+        session.send(msg)
     },
     function (session, results) {
-        cars = []
-        last = car.length
-        session.dialogData.carnumber = results.response
-        for (i = 1; i < session.dialogData.carnumber + 1; i++) {
-            carnum = (last + i) + "號"
-            cars.push(carnum)
+        if (results.response == "返回"){
+            session.replaceDialog("carstatus")
+        }else{
+            cars = []
+            last = car.length
+            session.dialogData.carnumber = results.response
+            for (i = 1; i < session.dialogData.carnumber + 1; i++) {
+                carnum = (last + i) + "號"
+                cars.push(carnum)
+            }
+            builder.Prompts.choice(session, "您確定要新增" + cars + "車嗎？", "確定|取消")
         }
-        builder.Prompts.choice(session, "您確定要新增" + cars + "車嗎？", "確定|取消")
     },
     function (session, results) {
         if (results.response.entity == "確定") {
@@ -339,22 +438,31 @@ bot.dialog("caradd", [
 
 bot.dialog("cardelete", [
     function (session) {
-        builder.Prompts.number(session, "請問您想刪除哪一號車？")
+        var msg = new builder.Message(session)
+        builder.Prompts.text(session, "請問您想刪除哪一號車？")
+        msg.suggestedActions(builder.SuggestedActions.create(
+            session,[builder.CardAction.imBack(session, "返回", "返回")]
+        ))
+        session.send(msg)
     },
     function (session, results) {
-        var options = {
-            method: "DELETE",
-            url: "http://localhost:8000/api/drivelesscar/" + results.response + "/",
-        }
-        request(options, function (error, response, body) {
-            if (!error && response.statusCode == 204) {
-                session.send("刪除成功")
-                session.replaceDialog("carMenu", { reprompt: true })
-            } else {
-                session.send("刪除失敗")
-                session.replaceDialog("carMenu", { reprompt: true })
+        if (results.response == "返回"){
+            session.replaceDialog("carstatus")
+        }else{
+            var options = {
+                method: "DELETE",
+                url: "http://localhost:8000/api/drivelesscar/" + results.response + "/",
             }
-        })
+            request(options, function (error, response, body) {
+                if (!error && response.statusCode == 204) {
+                    session.send("刪除成功")
+                    session.replaceDialog("carMenu", { reprompt: true })
+                } else {
+                    session.send("刪除失敗")
+                    session.replaceDialog("carMenu", { reprompt: true })
+                }
+            })
+        }
     }
 ])
 // Endcar ======================================================================
