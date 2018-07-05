@@ -53,6 +53,18 @@ def carrobots(request):
     return render(request, "lumino/carrobots.html", locals())
 def members(request):
     pageTitle = "#"
+    jobset={}
+    
+    for i in range(6):
+        datas= models.Employeestask.objects.filter(employeeid=i)
+        jobs= []
+
+        for data in datas:
+            if(data.job):
+                jobs.append(data.job)
+
+        jobset['{}'.format(i)]= jobs
+
     return render(request, "lumino/members.html", locals())
 def products(request):
     pageTitle = "#"
