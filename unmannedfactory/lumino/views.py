@@ -124,7 +124,6 @@ def getProduct(request):
         data = asserializersForORM.serialize("json", Products.objects.all())
         allDatasOfProduct= json.loads(data)
         return JsonResponse(allDatasOfProduct, safe=False)
-    
     elif request.method == "POST":
         productname=request.POST.get('name')
         amount=request.POST.get('amount')
@@ -141,4 +140,24 @@ def getProduct(request):
         a={'messages':'succesee'} 
         dump = json.dumps(a)   
         return JsonResponse(dump,safe=False)
+@csrf_exempt
+def productUpdate(request):
+    pageTitle="#"
+    if request.method == "POST": 
+        print(request.POST.get)    
+        productid=request.POST.get('id')
+        productname=request.POST.get('name')
+        amount=request.POST.get('amount')
+        shelves=request.POST.get('shelves')
+        flavor=request.POST.get('flavor')
+        size=request.POST.get('size')
+        unitprice=request.POST.get('unitprice')
 
+        unit=Products(productid=productid,productname=productname,amount=amount,shelves=shelves,flavor=flavor,size=size,unitprice=unitprice)
+        unit.save()
+        print(unit)
+        a={'messages':'succesee'} 
+        dump = json.dumps(a)   
+        return JsonResponse(dump,safe=False)
+        
+    
