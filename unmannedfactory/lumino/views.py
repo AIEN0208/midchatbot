@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from django.core import serializers
+from django.core import serializers as asserializersForORM
 from rest_framework import viewsets
+
 import json
 
 import lumino.models as models
-# from .models import Products
+from .models import Products
 from .models import Orders
 from .models import OrdersDetail
 # from lumino.models import Drivelesscar
@@ -52,6 +53,18 @@ def carrobots(request):
     return render(request, "lumino/carrobots.html", locals())
 def members(request):
     pageTitle = "#"
+    jobset={}
+    
+    for i in range(6):
+        datas= models.Employeestask.objects.filter(employeeid=i)
+        jobs= []
+
+        for data in datas:
+            if(data.job):
+                jobs.append(data.job)
+
+        jobset['{}'.format(i)]= jobs
+
     return render(request, "lumino/members.html", locals())
 def products(request):
     pageTitle = "#"
@@ -66,13 +79,14 @@ def orders(request):
     carrefourprice = 0
     rtmartprice = 0
     for order in orders:
-        totalprice += order.totalprice
-        if order.customername == 'Costco':
-            costcoprice += order.totalprice
-        elif order.customername == 'Carrefour':
-            carrefourprice += order.totalprice
-        elif order.customername == 'RT-Mart':
-            rtmartprice += order.totalprice
+        if order.status != 'Canceled':
+            totalprice += order.totalprice
+            if order.customername == 'Costco':
+                costcoprice += order.totalprice
+            elif order.customername == 'Carrefour':
+                carrefourprice += order.totalprice
+            elif order.customername == 'RT-Mart':
+                rtmartprice += order.totalprice
 
     totaltarget = 100000
     costcotarget = 50000
@@ -99,4 +113,32 @@ def getjson(request):
     data = serializers.serialize("json", Employees.objects.all())
     data2= json.loads(data)
     return JsonResponse(data2, safe=False)
+
+# product
+from django.views.decorators.csrf import csrf_exempt
+from .models import Products
+@csrf_exempt
+def getProduct(request):
+    pageTitle="#"
+    if (request.method == "GET"):
+        data = asserializersForORM.serialize("json", Products.objects.all())
+        allDatasOfProduct= json.loads(data)
+        return JsonResponse(allDatasOfProduct, safe=False)
+    
+    elif request.method == "POST":
+        productname=request.POST.get('name')
+        amount=request.POST.get('amount')
+        shelves=request.POST.get('shelves')
+        flavor=request.POST.get('flavor')
+        size=request.POST.get('size')
+        unitprice=request.POST.get('unitprice')
+        
+        Ans=[data for data in Products.objects.values_list('productid',flat=True)]
+        Ans=(len(Ans)+1)
+        unit=Products(productid=Ans,productname=productname,amount=amount,shelves=shelves,flavor=flavor,size=size,unitprice=unitprice)
+        unit.save()
+        print(unit)
+        a={'messages':'succesee'} 
+        dump = json.dumps(a)   
+        return JsonResponse(dump,safe=False)
 

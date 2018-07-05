@@ -7,12 +7,12 @@
         "離開":"exit"
     },
 
-    "engMenu":{
-        "Function4":"products",
-        "Task management":"Task management",
-        "AGV manage system":"carMenu",
-        "Order inquiry system":"orders",
-        "Log out":"Log out"
+    "Menu":{
+        "產品管理":"products",
+        "任務管理":"Task management",
+        "無人車管理":"carMenu",
+        "訂單管理":"orders",
+        "登出":"Log out"
     },
     
     "orders":{
@@ -26,7 +26,14 @@
             "根據客戶名稱": "CustomerName",
             "根據訂單成立日期": "OrderDate",
             "根據訂單配送日期": "ShippedDate",
-            "是否完成訂單": "Complete"
+            "是否完成訂單": "Status"
         }
-    }  
+    },
+    
+    "task":{
+        "成員工作清單":"Clock-in & Daily Plan",
+        "工作時間確認":"Work Time Confirmation",
+        "工作情況回報":"Work Reports",
+        "工作效率回報":"Efficiency Report"
+    }
 }

@@ -24,7 +24,7 @@ class Orders(models.Model):
     orderdate = models.CharField(db_column='OrderDate', max_length=45)  # Field name made lowercase.
     shippeddate = models.CharField(db_column='ShippedDate', max_length=45)  # Field name made lowercase.
     totalprice = models.IntegerField(db_column='TotalPrice')  # Field name made lowercase.
-    complete = models.CharField(db_column='Complete', max_length=10)  # Field name made lowercase.
+    status = models.CharField(db_column='Status', max_length=45)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -45,16 +45,6 @@ class OrdersDetail(models.Model):
         managed = False
         db_table = 'orders_detail'
 
-
-class Products(models.Model):
-    productid = models.AutoField(db_column='ProductID', primary_key=True)  # Field name made lowercase.
-    productname = models.CharField(db_column='ProductName', max_length=45)  # Field name made lowercase.
-    unitprice = models.IntegerField(db_column='UnitPrice')  # Field name made lowercase.
-    amount = models.IntegerField(db_column='Amount')  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'products'
 
 class Employees(models.Model):
     employeeid = models.AutoField(db_column='EmployeeID', primary_key=True)
@@ -106,3 +96,16 @@ class Department(models.Model):
     class Meta:
         managed = False
         db_table = 'department'
+
+class Products(models.Model):
+    productid = models.IntegerField(db_column='productID', primary_key=True)  # Field name made lowercase.
+    productname = models.CharField(db_column='productName', max_length=45)  # Field name made lowercase.
+    amount = models.IntegerField()
+    shelves = models.CharField(max_length=2)
+    flavor = models.CharField(max_length=45)
+    size = models.CharField(max_length=45)
+    unitprice = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'products'

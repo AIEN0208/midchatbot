@@ -15,13 +15,13 @@ class ProductsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Products
         # fields = '__all__'
-        fields = ('productid', 'productname', 'unitprice', 'amount')
+        fields = ('productid', 'productname', 'amount', 'shelves', 'flavor', 'size', 'unitprice')
 
 class OrdersSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Orders
         # fields = '__all__'
-        fields = ('orderid', 'customername', 'orderdate', 'shippeddate', 'totalprice', 'complete')
+        fields = ('orderid', 'customername', 'orderdate', 'shippeddate', 'totalprice', 'status')
 
 
 class OrdersDetailSerializer(serializers.ModelSerializer):

@@ -2,7 +2,8 @@ var restify = require('restify');
 var builder = require('botbuilder');
 var request = require('request');
 var querystring = require('querystring');
-var menu = require('./menuConfig.json')
+var taskmenu = require('./menuConfig.json');
+var task= taskmenu.task;
 
 var options = {
     method: 'GET',
@@ -22,11 +23,11 @@ request(options, function (error, response, body) {
 
 bot.dialog('Task management', [
     function (session) {
-        builder.Prompts.choice(session, "Select a function below.", "Clock-in & Daily Plan|Work Time Confirmation|Work Reports|Efficiency Report", { listStyle: builder.ListStyle.button });
+        builder.Prompts.choice(session, "請選擇以下功能.", "成員工作清單|工作時間確認|工作情況回報|工作效率回報", { listStyle: builder.ListStyle.button });
     },
     function (session, results) {
-        var choice = results.response.entity;
-        session.replaceDialog(choice);
+        // var choice = results.response.entity;
+        session.replaceDialog(task[results.response.entity]);
     }
 ]).triggerAction({
     matches: /Task management/i
@@ -66,10 +67,10 @@ bot.dialog("Clock-in & Daily Plan", [
             .attachments(cards)
             .suggestedActions(builder.SuggestedActions.create(
                 session, [
-                    builder.CardAction.imBack(session, "Assign jobs", "Assign jobs"),
-                    builder.CardAction.imBack(session, "Cancel jobs", "Cancel jobs"),
-                    builder.CardAction.imBack(session, "Task management", "Task management"),
-                    builder.CardAction.imBack(session, "Main menu", "Main menu"),
+                    builder.CardAction.imBack(session, "Assign jobs", "指派任務"),
+                    builder.CardAction.imBack(session, "Cancel jobs", "取消任務"),
+                    builder.CardAction.imBack(session, "Task management", "回任務管理"),
+                    builder.CardAction.imBack(session, "Main menu", "主選單"),
                 ]
             ))
             ;
@@ -117,9 +118,9 @@ bot.dialog('Work Reports', [
             .attachments(cards)
             .suggestedActions(builder.SuggestedActions.create(
                 session, [
-                    builder.CardAction.imBack(session, "Assign jobs", "Assign jobs"),
-                    builder.CardAction.imBack(session, "Task management", "Task management"),
-                    builder.CardAction.imBack(session, "Main menu", "Main menu"),
+                    builder.CardAction.imBack(session, "Assign jobs", "指派工作"),
+                    builder.CardAction.imBack(session, "Task management", "回任務管理"),
+                    builder.CardAction.imBack(session, "Main menu", "主選單"),
                 ]
             ))
             ;
@@ -149,13 +150,13 @@ bot.dialog('Assign jobs', [
                 }
             }
             var members = session.dialogData.members;
-            builder.Prompts.choice(session, 'To who?', members, { listStyle: builder.ListStyle.button });
+            builder.Prompts.choice(session, '向誰指派?', members, { listStyle: builder.ListStyle.button });
         })
     },
     function (session, results) {
         session.dialogData.member = results.response.entity
         session.dialogData.memberid = session.dialogData.membersid[results.response.index];
-        builder.Prompts.text(session, `What do you want **${session.dialogData.member}** to do?`);
+        builder.Prompts.text(session, `你希望 **${session.dialogData.member}** 做什麼?`);
     },
     function (session, results) {
         var jobs = session.dialogData.jobs = results.response;
@@ -235,10 +236,10 @@ bot.dialog('Cancel jobs', [
         var reply = new builder.Message(session)
             .suggestedActions(builder.SuggestedActions.create(
                 session, [
-                    builder.CardAction.imBack(session, "Assign jobs", "Assign jobs"),
-                    builder.CardAction.imBack(session, "Cancel jobs", "Cancel jobs"),
-                    builder.CardAction.imBack(session, "Task management", "Task management"),
-                    builder.CardAction.imBack(session, "Main menu", "Main menu"),
+                    builder.CardAction.imBack(session, "Assign jobs", "指派任務"),
+                    builder.CardAction.imBack(session, "Cancel jobs", "取消任務"),
+                    builder.CardAction.imBack(session, "Task management", "回任務管理"),
+                    builder.CardAction.imBack(session, "Main menu", "主選單"),
                 ]
             ))
             ;
@@ -267,11 +268,4 @@ bot.dialog('Cancel jobs', [
 bot.dialog("Efficiency Report", function (session) {
     session.send("Sorry, we are still working on it.");
     session.replaceDialog("Task management");
-});
-
-bot.dialog("Log out", function (session) {
-    session.userData.identity = 0;
-    session.endDialog(`System offline. See you, **${session.userData.nameandtitle}**.`);
-}).triggerAction({
-    matches: /Log out/i
 });

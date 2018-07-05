@@ -22,5 +22,7 @@ urlpatterns = [
     path('login/', views.login, name="login"),
     path('api/v1/group/', views.getjson, name="getjson"),
     url(r'^admin/', admin.site.urls),
-    url(r'^api/', include(router.urls))
+    url(r'^api/', include(router.urls)),
+    path('api/v1/products',views.getProduct,name="getProduct"),
+
 ]
