@@ -3,7 +3,7 @@ var builder = require('botbuilder');
 var request = require('request');
 var querystring = require('querystring');
 var taskmenu = require('./menuConfig.json');
-var task= taskmenu.task;
+var task = taskmenu.task;
 
 var options = {
     method: 'GET',
@@ -22,11 +22,20 @@ request(options, function (error, response, body) {
 })
 
 bot.dialog('Task management', [
+
     function (session) {
-        builder.Prompts.choice(session, "請選擇以下功能.", "成員工作清單|工作時間確認|工作情況回報|工作效率回報|回主選單", { listStyle: builder.ListStyle.button });
+        var identity = session.userData.identity;
+        if (identity == 0) {
+            session.replaceDialog("Login")
+        } else if (identity == 2) {
+            builder.Prompts.choice(session, "請選擇以下功能.", "成員工作清單|工作情況回報|回主選單", { listStyle: builder.ListStyle.button });
+        } else if (identity == 5) {
+            builder.Prompts.choice(session, "請選擇以下功能.", "成員/工作清單|呈報工作情況|工作情況回報|回主選單", { listStyle: builder.ListStyle.button });
+        } else {
+            builder.Prompts.choice(session, "請選擇以下功能.", "工作清單|呈報工作情況|回主選單", { listStyle: builder.ListStyle.button });
+        }
     },
     function (session, results) {
-        // var choice = results.response.entity;
         session.replaceDialog(task[results.response.entity]);
     }
 ]).triggerAction({
@@ -38,9 +47,9 @@ bot.dialog("Clock-in & Daily Plan", [
         var id = session.userData.identity;
         var cards = [];
         for (i = 0; i < employees.length; i++) {
-            if (employees[i].reportsto == id) {
-                var task = "";
-                var employeeid = employees[i].employeeid
+            var task = "";
+            var employeeid = employees[i].employeeid;
+            if (employees[i].reportsto == id || employees[i].employeeid == id) {
                 for (j = 0; j < employeestask.length; j++) {
                     if (employeestask[j].employeeid == employeeid) {
                         if (employeestask[j].job) {
@@ -58,7 +67,9 @@ bot.dialog("Clock-in & Daily Plan", [
                             { url: `${employees[i].photopath}` }
                         ])
                     ;
+                // if(task){
                 cards.push(card);
+                // }
             }
         }
         // create reply with Carousel AttachmentLayout
@@ -149,14 +160,19 @@ bot.dialog('Assign jobs', [
                     session.dialogData.members.push(member);
                 }
             }
+            session.dialogData.members.push("Cancel");
             var members = session.dialogData.members;
             builder.Prompts.choice(session, '向誰指派?', members, { listStyle: builder.ListStyle.button });
         })
     },
     function (session, results) {
         session.dialogData.member = results.response.entity
-        session.dialogData.memberid = session.dialogData.membersid[results.response.index];
-        builder.Prompts.text(session, `你希望 **${session.dialogData.member}** 做什麼?`);
+        if (session.dialogData.member != "Cancel") {
+            session.dialogData.memberid = session.dialogData.membersid[results.response.index];
+            builder.Prompts.text(session, `你希望 **${session.dialogData.member}** 做什麼?`);
+        } else {
+            session.replaceDialog("Task management")
+        }
     },
     function (session, results) {
         var jobs = session.dialogData.jobs = results.response;
@@ -263,6 +279,155 @@ bot.dialog('Cancel jobs', [
     }
 ]).triggerAction({
     matches: /Cancel jobs/i
+});
+
+bot.dialog('Work Submits', [
+    function (session) {
+        var id = session.userData.identity;
+        var cards = [];
+        for (i = 0; i < employees.length; i++) {
+            if (employees[i].employeeid == id) {
+                var task = "";
+                var employeeid = employees[i].employeeid
+                for (j = 0; j < employeestask.length; j++) {
+                    if (employeestask[j].employeeid == employeeid) {
+                        if (employeestask[j].dailyreport) {
+                            task += (`• ${employeestask[j].dailyreport} <br/>`);
+                        }
+                    }
+                }
+                var card =
+                    new builder.ThumbnailCard(session)
+                        .title(`${employees[i].titleofcourtesy} ${employees[i].firstname} ${employees[i].lastname}`)
+                        .subtitle(`Department: ${employees[i].department}<br/>position: ${employees[i].position}`)
+                        .text(task)
+                        .images([
+                            builder.CardImage.create(session, 'https://msdnshared.blob.core.windows.net/media/2017/03/Azure-Cognitive-Services-e1489079006258.png')
+                        ])
+                    ;
+                cards.push(card);
+            }
+        }
+        // create reply with Carousel AttachmentLayout
+        var reply = new builder.Message(session)
+            .attachmentLayout(builder.AttachmentLayout.carousel)
+            .attachments(cards)
+            .suggestedActions(builder.SuggestedActions.create(
+                session, [
+                    builder.CardAction.imBack(session, "Submit reports", "新增呈報"),
+                    builder.CardAction.imBack(session, "Update reports", "修改呈報"),
+                    builder.CardAction.imBack(session, "Delete reports", "刪除呈報"),
+                    builder.CardAction.imBack(session, "Task management", "回任務管理"),
+                    builder.CardAction.imBack(session, "Main menu", "主選單"),
+                ]
+            ))
+            ;
+        session.send(reply);
+    }
+]).triggerAction({
+    matches: /Work Submits/i
+});
+
+bot.dialog('Submit reports', [
+    function (session) {
+        builder.Prompts.text(session, `請輸入新增事項: `);
+    },
+    function (session, results) {
+        var reports = session.dialogData.reports = results.response;
+        if (reports != "cancel") {
+            session.send(`確認呈報以下事項: <br/>${reports}`);
+            var reply = new builder.Message(session)
+                .suggestedActions(builder.SuggestedActions.create(
+                    session, [
+                        builder.CardAction.imBack(session, "Clock-in & Daily Plan", "工作清單"),
+                        builder.CardAction.imBack(session, "Task management", "任務管理"),
+                        builder.CardAction.imBack(session, "Main menu", "主選單"),
+                    ]
+                ))
+                ;
+            session.send(reply);
+            var employeeid = session.userData.identity;
+            var form = { 'employeeid': employeeid, 'dailyreport': reports };
+            var formData = querystring.stringify(form);
+            var options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formData,
+                url: 'http://localhost:8000/api/employeestask/'
+            };
+            request(options, function (error, response, body) {
+                var options = {
+                    method: 'GET',
+                    url: 'http://localhost:8000/api/employeestask/'
+                };
+                request(options, function (error, response, body) {
+                    employeestask = JSON.parse(body);
+                })
+            });
+        } else {
+            session.replaceDialog("Task management");
+        }
+    }
+]).triggerAction({
+    matches: /Submit reports/i
+});
+
+bot.dialog('Delete reports', [
+    function (session, results) {
+        var employeeid = session.userData.identity;
+        var task = new Array();
+        var taskid = new Array();
+        for (j = 0; j < employeestask.length; j++) {
+            if (employeestask[j].employeeid == employeeid) {
+                if (employeestask[j].dailyreport) {
+                    task.push(employeestask[j].dailyreport);
+                    taskid.push(employeestask[j].id);
+                }
+            }
+        }
+        session.dialogData.task = task;
+        session.dialogData.taskid = taskid
+        task.push("Cancel")
+        builder.Prompts.choice(session, "Which one?", task, { listStyle: builder.ListStyle.button });
+    },
+    function (session, results) {
+        if (results.response.entity != "Cancel") {
+            var index = results.response.index;
+            var id = session.dialogData.taskid[index];
+            var reply = new builder.Message(session)
+                .suggestedActions(builder.SuggestedActions.create(
+                    session, [
+                        builder.CardAction.imBack(session, "Assign jobs", "指派任務"),
+                        builder.CardAction.imBack(session, "Cancel jobs", "取消任務"),
+                        builder.CardAction.imBack(session, "Task management", "回任務管理"),
+                        builder.CardAction.imBack(session, "Main menu", "主選單"),
+                    ]
+                ))
+                ;
+            session.send(reply);
+            var options = {
+                method: 'DELETE',
+                url: 'http://localhost:8000/api/employeestask/' + id + "/"
+            };
+            request(options, function (error, response, body) {
+                var options = {
+                    method: 'GET',
+                    url: 'http://localhost:8000/api/employeestask/'
+                };
+                request(options, function (error, response, body) {
+                    employeestask = JSON.parse(body);
+                    session.send(`**Confirmed**`);
+                    session.replaceDialog("Task management");
+                })
+            });
+        } else {
+            session.replaceDialog("Task management");
+        }
+    }
+]).triggerAction({
+    matches: /Delete reports/i
 });
 
 bot.dialog("Efficiency Report", function (session) {
