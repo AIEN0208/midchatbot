@@ -86,17 +86,20 @@ def carrobots(request):
 def members(request):
     pageTitle = "#"
     jobset={}
+    authority=2
+    employees= models.Employees.objects.filter(reportsto=authority)
     
-    for i in range(6):
-        datas= models.Employeestask.objects.filter(employeeid=i)
+    for employee in employees:
+        tasks= models.Employeestask.objects.filter(employeeid=employee.employeeid)
         jobs= []
 
-        for data in datas:
-            if(data.job):
-                jobs.append(data.job)
+        for task in tasks:
+            if(task.job):
+                jobs.append(task.job)
 
-        jobset['{}'.format(i)]= jobs
+        jobset['{}'.format(employee.employeeid)]= jobs
 
+    rows= zip([employee for employee in employees],[value for key,value in jobset.items()])
     return render(request, "lumino/members.html", locals())
 def products(request):
     pageTitle = "#"
