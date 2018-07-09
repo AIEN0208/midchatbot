@@ -66,9 +66,7 @@ def members(request):
         jobset['{}'.format(i)]= jobs
 
     return render(request, "lumino/members.html", locals())
-def products(request):
-    pageTitle = "#"
-    return render(request, "lumino/products.html", locals())
+
 def orders(request):
     pageTitle = "Orders"
     orders = Orders.objects.all()
@@ -117,12 +115,14 @@ def getjson(request):
 # product
 from django.views.decorators.csrf import csrf_exempt
 from .models import Products
+import requests
 @csrf_exempt
 def getProduct(request):
     pageTitle="#"
     if (request.method == "GET"):
         data = asserializersForORM.serialize("json", Products.objects.all())
         allDatasOfProduct= json.loads(data)
+        print(allDatasOfProduct)
         return JsonResponse(allDatasOfProduct, safe=False)
     elif request.method == "POST":
         productname=request.POST.get('name')
@@ -160,4 +160,12 @@ def productUpdate(request):
         dump = json.dumps(a)   
         return JsonResponse(dump,safe=False)
         
-    
+def products(request):
+    data = Products.objects.all()
+    # data = asserializersForORM.serialize("json", Products.objects.all())
+    # allDatasOfProduct= json.loads(data)
+    response = requests.get('https://sheetdb.io/api/v1/5b308e9e080cc')
+    UserLog =  response.json()
+    print(UserLog)
+    return render(request,'lumino/products.html',locals())
+

@@ -5,6 +5,33 @@ var querystring = require('querystring');
 var fs = require('fs');
 var menu = require('./menuConfig.json')
 
+function getDateTime() {
+
+    var date = new Date();
+
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+
+    var min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+
+    var sec  = date.getSeconds();
+    sec = (sec < 10 ? "0" : "") + sec;
+
+    var year = date.getFullYear();
+
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+
+    return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
+
+}
+
+
+
 var server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || '3978', function () {
     console.log('%s listening to %s', server.name, server.url)
@@ -16,7 +43,7 @@ var connector = new builder.ChatConnector({
 });
 
 server.post('/api/messages', connector.listen());
-
+var UserLog={}
 var bot = new builder.UniversalBot(connector, [
     function (session) {
 
@@ -65,7 +92,7 @@ bot.dialog('Login', [
             for (i = 0; i < employees.length; i++) {
                 if (employees[i].postalcode == pwd) {
                     session.send("身分確認");
-                    session.send(`早安, **${employees[i].titleofcourtesy} ${employees[i].firstname} ${employees[i].lastname}**`);
+                    session.send(`早安, **${employees[i].titleofcourtesy} ${employees[i].firstname} ${employees[i].lastname}**`)         
                     var confirmed = 1;
                     break;
                 }
@@ -78,6 +105,7 @@ bot.dialog('Login', [
                 session.userData.nameandtitle = employees[i].titleofcourtesy + " " + employees[i].firstname + " " + employees[i].lastname;
                 session.replaceDialog("Main menu")
             }
+           
         })
     }
 ]).triggerAction({
@@ -110,6 +138,7 @@ bot.dialog("Log out", function (session) {
 }).triggerAction({
     matches: /Log out/i
 });
+
 
 // file is included here:
 eval(fs.readFileSync('agvs.js').toString());
