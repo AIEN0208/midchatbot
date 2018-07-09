@@ -111,7 +111,7 @@ bot.dialog("Log out", function (session) {
 });
 
 // file is included here:
-// eval(fs.readFileSync('agvs.js').toString());
+eval(fs.readFileSync('agvs.js').toString());
 eval(fs.readFileSync('orders.js').toString());
-// eval(fs.readFileSync('task.js').toString());
-// eval(fs.readFileSync('products.js').toString());
+eval(fs.readFileSync('task.js').toString());
+eval(fs.readFileSync('products.js').toString());
