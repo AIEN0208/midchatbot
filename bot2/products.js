@@ -20,19 +20,17 @@ bot.dialog("products",[
 
 var eachP={};
 bot.dialog("productDetail",[
-    
     function(session){
-        session.dialogData.products={}
+        session.dialogData.products={} 
         var productApi={
             method:"GET",
             url: menu.url + "api/v1/products"
         }
         //________________________________________________________________
         request(productApi,function(err,response,result){
-            //把
+            console.log(result)
             session.dialogData.products = JSON.parse(result)
             products=session.dialogData.products
-            
             var b=[]
             var z=0
             //把每個dict的內容分割變成productEach的物件
@@ -54,7 +52,7 @@ bot.dialog("productDetail",[
                     } 
                     eachP[key]=value                
                 });
-            // console.log(eachP)
+            console.log(eachP)
             builder.Prompts.choice(session,"想查看何種產品?",eachP,{listStyle:builder.ListStyle.button});            
         })       
     },
@@ -76,7 +74,6 @@ bot.dialog("productDetail",[
                 builder.Fact.create(session,`${session.dialogData.productDetail.size}`,'重量'),
                 builder.Fact.create(session,`${session.dialogData.productDetail.unitprice}`,'售價')
             ])
-            
         ])
         msg.suggestedActions(builder.SuggestedActions.create(
             session,[
@@ -86,7 +83,6 @@ bot.dialog("productDetail",[
         ))
         // console.log(msg)
         session.endDialog(msg);
-    
         // console.log(session)
         // console.log(results
         // session.replaceDialog(items[results.response.entity]);
@@ -122,7 +118,9 @@ bot.dialog("productCreate",[
     },
     function createProductList(session,results){
         session.dialogData.productCreate.unitprice = results.response;
-        var aa=session.dialogData.productCreate
+        UserCreateLog.HistoryRecord=session.dialogData.productCreate
+        console.log(UserCreateLog.HistoryRecord)
+        
         var msg =new builder.Message(session)
         msg.attachments([
             new builder.ReceiptCard(session)
@@ -140,30 +138,45 @@ bot.dialog("productCreate",[
         builder.Prompts.choice(session,"商品是否確認新增?","是|否",
             {listStyle:builder.ListStyle.button});
     }, 
-    // function createProductCheck(session,results){
-    //     console.log(results)
-    //     builder.Prompts.choice(session,"商品是否確認新增?","是 | 否",
-    //         {listStyle:builder.ListStyle.button});
-    //         createProductPost();
-    //     },
-    function createProductPost(session,results){
-        console.log(session.dialogData.productCreate)
+   
+    function createProductPost(session,results){    
         if (results.response.entity=="是"){
             var check=session.dialogData.productCreate
             var productNewData=querystring.stringify(check)
+            console.log(productNewData)
+            //___________________________________
+            UserCreateLog.UserName=session.userData.identity;
+            UserCreateLog.UserId=session.userData.identity;
+            UserCreateLog.Method="Create"
+            UserCreateLog.HistoryRecord=productNewData
+            UserCreateLog.Date=getDateTime()
+            // _____________________________________________________
             var options={
-                method:'POST',
+                method:"POST",
                 headers:{
-                    'Content-Type':'application/x-www-form-urlencoded;charset=utf-8'
-                },
+                        'Content-Type':'application/x-www-form-urlencoded;charset=utf-8'
+                    },
                 body:productNewData,
                 url: menu.url + 'api/v1/products'
             }
             request(options,function(error,response,body){
                 builder.Prompts.text(session,'商品已新增')
             })
-            // session.send("商品已新增")
+            // __________________________________________________
+            var options2={
+                method:'POST',
+                json:true,
+                headers:{'Content-Type':'application/json' },
+                body:{"data":{  "UserName": UserCreateLog.UserName,
+                                "UserId": UserCreateLog.UserId,
+                                "HistoryRecord":UserCreateLog.HistoryRecord,
+                                "Method": UserCreateLog.Method,
+                                "Date": UserCreateLog.Date }},
+                uri:'https://sheetdb.io/api/v1/5b308e9e080cc'
+            }
+            request(options2)
             session.replaceDialog("products",{reprompt:false})
+            UserCreateLog={}
         }else if(results.response.entity=="否"){
             session.replaceDialog("productCreate",{reprompt:false})
         }else{
@@ -267,7 +280,7 @@ bot.dialog("productUpdateAll",[
         builder.Prompts.choice(session,"商品是否確認修改?","是|否",
             {listStyle:builder.ListStyle.button});
     }, 
-    function createProductPost(session,results){
+    function createProductPost(session,results){bbh
         
         if (results.response.entity=="是"){
             var check=updateE
