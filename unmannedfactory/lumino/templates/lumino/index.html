@@ -11,26 +11,55 @@
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">無人工廠對話管理流程</h1>
+				<h1 class="page-header">
+					Unmanned Factory Management</h1>
 			</div>
 		</div><!--/.row-->
 		<div class="row">
 			<div class="col-xs-6 col-md-3 col-lg-5 no-padding"></div>
 			<div class="col-xs-6 col-md-3 col-lg-2 no-padding">
 				<div class="panel panel-teal panel-widget border-right">
-					<div class="row no-padding"><i class="fas fa-sign-in-alt fa-3x"></i>
+					<div class="row no-padding" id="login"><i class="fas fa-sign-in-alt fa-3x"></i>
 						<div><h3 style="font-weight:bold">Login</h3></div>
 					</div>
 				</div>
 			</div>
 			<div class="col-xs-6 col-md-3 col-lg-5 no-padding"></div>
 		</div>
+		<div class="row" id="divlogin">
+			<div class="col-lg-12">
+				<ul class="timeline">
+					<li>
+						<div class="timeline-badge"><em class="glyphicon glyphicon-pushpin"></em></div>
+						<div class="timeline-panel">
+							<div class="timeline-heading">
+								<h4 class="timeline-title">歡迎頁面</h4>
+							</div>
+							<div class="timeline-body">
+								<p>播放本公司之宣傳影片，以及官網連結.</p>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="timeline-badge primary"><em class="glyphicon glyphicon-link"></em></div>
+						<div class="timeline-panel">
+							<div class="timeline-heading">
+								<h4 class="timeline-title">身分驗證</h4>
+							</div>
+							<div class="timeline-body">
+								<p>輸入個人身分代碼進行驗證，以登入管理系統.</p>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div><!--/.row-->
 
 		<div class="panel panel-container">
 			<div class="row">
 				<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
 					<div class="panel panel-teal panel-widget border-right">
-						<div class="row no-padding"><i class="fas fa-boxes fa-3x color-blue"></i>
+						<div class="row no-padding" id="products"><i class="fas fa-boxes fa-3x color-blue"></i>
 							<div><h3 style="font-weight:bold">Products</h3></div>
 							<div class="text-muted">Neil</div>
 						</div>
@@ -38,7 +67,7 @@
 				</div>
 				<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
 					<div class="panel panel-blue panel-widget border-right">
-						<div class="row no-padding"><i class="fas fa-users fa-3x color-teal"></i>
+						<div class="row no-padding" id="employees"><i class="fas fa-users fa-3x color-teal"></i>
 							<div><h3 style="font-weight:bold">Employees</h3></div>
 							<div class="text-muted">Benson</div>
 						</div>
@@ -46,7 +75,7 @@
 				</div>
 				<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
 					<div class="panel panel-orange panel-widget border-right">
-						<div class="row no-padding"><i class="fab fa-reddit fa-3x color-orange"></i>
+						<div class="row no-padding" id="carrobots"><i class="fab fa-reddit fa-3x color-orange"></i>
 							<div><h3 style="font-weight:bold">CarRobots</h3></div>
 							<div class="text-muted">David</div>
 						</div>
@@ -54,7 +83,7 @@
 				</div>
 				<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
 					<div class="panel panel-red panel-widget ">
-						<div class="row no-padding"><i class="fas fa-cart-plus fa-3x color-red"></i>
+						<div class="row no-padding" id="orders"><i class="fas fa-cart-plus fa-3x color-red"></i>
 							<div><h3 style="font-weight:bold">Orders</h3></div>
 							<div class="text-muted">Allison</div>
 						</div>
@@ -62,324 +91,89 @@
 				</div>
 			</div><!--/.row-->
 		</div>
-		<div class="row">
-
+		<div class="row" id="divproducts">
 			<div class="col-md-12">
 				<div class="panel panel-default ">
-					<div class="panel-heading">
-						Welcome & Login Page
-						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
+					<div class="panel-heading">Products</div>
 					<div class="panel-body timeline-container">
-						<ul class="timeline">
-							<li>
-								<div class="timeline-badge"><em class="glyphicon glyphicon-pushpin"></em></div>
-								<div class="timeline-panel">
-									<div class="timeline-heading">
-										<h4 class="timeline-title">歡迎頁面</h4>
-									</div>
-									<div class="timeline-body">
-										<p>播放本公司之宣傳影片，以及官網連結.</p>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="timeline-badge primary"><em class="glyphicon glyphicon-link"></em></div>
-								<div class="timeline-panel">
-									<div class="timeline-heading">
-										<h4 class="timeline-title">身分驗證</h4>
-									</div>
-									<div class="timeline-body">
-										<p>輸入個人身分代碼進行驗證，以登入管理系統.</p>
-									</div>
-								</div>
-							</li>
-
-						</ul>
+						Put the chatbot structure here :)
 					</div>
 				</div>
 			</div><!--/.col-->
-			
 		</div><!--/.row-->
 
-		<div class="row">
-
+		<div class="row" id="divemployees">
 			<div class="col-md-12">
 				<div class="panel panel-default ">
-					<div class="panel-heading">
-						Main Menu
-						<span class="pull-right clickable panel-toggle panel-button-tab-left panel-collapsed"><em class="fa fa-toggle-down"></em></span></div>
-					<div class="panel-body timeline-container" style="display: none;">
-						<ul class="timeline">
-							<li>
-								<div class="timeline-badge"><em class="glyphicon glyphicon-pushpin"></em></div>
-								<div class="timeline-panel">
-									<div class="timeline-heading">
-										<h4 class="timeline-title">產品管理</h4>
-									</div>
-									<div class="timeline-body">
-										<p>公司產品清單管理系統.</p>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="timeline-badge primary"><em class="glyphicon glyphicon-link"></em></div>
-								<div class="timeline-panel">
-									<div class="timeline-heading">
-										<h4 class="timeline-title">任務管理</h4>
-									</div>
-									<div class="timeline-body">
-										<p>個人任務管理系統.</p>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="timeline-badge"><em class="glyphicon glyphicon-camera"></em></div>
-								<div class="timeline-panel">
-									<div class="timeline-heading">
-										<h4 class="timeline-title">無人車管理</h4>
-									</div>
-									<div class="timeline-body">
-										<p>工廠無人車管理系統.</p>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="timeline-badge"><em class="glyphicon glyphicon-paperclip"></em></div>
-								<div class="timeline-panel">
-									<div class="timeline-heading">
-										<h4 class="timeline-title">訂單管理</h4>
-									</div>
-									<div class="timeline-body">
-										<p>工廠訂單管理系統.</p>
-									</div>
-								</div>
-							</li>
-						</ul>
+					<div class="panel-heading">Employees</div>
+					<div class="panel-body timeline-container">
+						Put the chatbot structure here :)
 					</div>
 				</div>
 			</div><!--/.col-->
-			
 		</div><!--/.row-->
 
-		<div class="row">
-			
-			<div class="col-md-3">
+		<div class="row" id="divcarrobots">
+			<div class="col-md-12">
 				<div class="panel panel-default ">
-					<div class="panel-heading">
-						產品管理
-						<span class="pull-right clickable panel-toggle panel-button-tab-left panel-collapsed"><em class="fa fa-toggle-down"></em></span></div>
-					<div class="panel-body timeline-container" style="display: none;">
-						<ul class="timeline">
-							<li>
-								<div class="timeline-badge"><em class="glyphicon glyphicon-pushpin"></em></div>
-								<div class="timeline-panel">
-									<div class="timeline-heading">
-										<h4 class="timeline-title">Lorem ipsum dolor sit amet</h4>
-									</div>
-									<div class="timeline-body">
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at sodales nisl. Donec malesuada orci ornare risus finibus feugiat.</p>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="timeline-badge primary"><em class="glyphicon glyphicon-link"></em></div>
-								<div class="timeline-panel">
-									<div class="timeline-heading">
-										<h4 class="timeline-title">Lorem ipsum dolor sit amet</h4>
-									</div>
-									<div class="timeline-body">
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="timeline-badge"><em class="glyphicon glyphicon-camera"></em></div>
-								<div class="timeline-panel">
-									<div class="timeline-heading">
-										<h4 class="timeline-title">Lorem ipsum dolor sit amet</h4>
-									</div>
-									<div class="timeline-body">
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at sodales nisl. Donec malesuada orci ornare risus finibus feugiat.</p>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="timeline-badge"><em class="glyphicon glyphicon-paperclip"></em></div>
-								<div class="timeline-panel">
-									<div class="timeline-heading">
-										<h4 class="timeline-title">Lorem ipsum dolor sit amet</h4>
-									</div>
-									<div class="timeline-body">
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-									</div>
-								</div>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div><!--/.col-->		
-
-			<div class="col-md-3">
-				<div class="panel panel-default ">
-					<div class="panel-heading">
-						任務管理
-						<span class="pull-right clickable panel-toggle panel-button-tab-left panel-collapsed"><em class="fa fa-toggle-down"></em></span></div>
-					<div class="panel-body timeline-container" style="display: none;">
-						<ul class="timeline">
-							<li>
-								<div class="timeline-badge"><em class="glyphicon glyphicon-pushpin"></em></div>
-								<div class="timeline-panel">
-									<div class="timeline-heading">
-										<h4 class="timeline-title">成員/工作清單</h4>
-									</div>
-									<div class="timeline-body">
-										<p>查看所屬成員以及自己的工作項目，並可進行指派分配任務等功能.</p>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="timeline-badge primary"><em class="glyphicon glyphicon-link"></em></div>
-								<div class="timeline-panel">
-									<div class="timeline-heading">
-										<h4 class="timeline-title">呈報/回報工作情況</h4>
-									</div>
-									<div class="timeline-body">
-										<p>查看所屬成員向您回報的事項，以及自己需要向上級回報的事項，並可進行新增/修改/刪除任務細項等功能.</p>
-									</div>
-								</div>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div><!--/.col-->	
-
-			<div class="col-md-3">
-				<div class="panel panel-default ">
-					<div class="panel-heading">
-						無人車管理
-						<span class="pull-right clickable panel-toggle panel-button-tab-left panel-collapsed"><em class="fa fa-toggle-down"></em></span></div>
-					<div class="panel-body timeline-container" style="display: none;">
-						<ul class="timeline">
-							<li>
-								<div class="timeline-badge"><em class="glyphicon glyphicon-pushpin"></em></div>
-								<div class="timeline-panel">
-									<div class="timeline-heading">
-										<h4 class="timeline-title">Lorem ipsum dolor sit amet</h4>
-									</div>
-									<div class="timeline-body">
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at sodales nisl. Donec malesuada orci ornare risus finibus feugiat.</p>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="timeline-badge primary"><em class="glyphicon glyphicon-link"></em></div>
-								<div class="timeline-panel">
-									<div class="timeline-heading">
-										<h4 class="timeline-title">Lorem ipsum dolor sit amet</h4>
-									</div>
-									<div class="timeline-body">
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="timeline-badge"><em class="glyphicon glyphicon-camera"></em></div>
-								<div class="timeline-panel">
-									<div class="timeline-heading">
-										<h4 class="timeline-title">Lorem ipsum dolor sit amet</h4>
-									</div>
-									<div class="timeline-body">
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at sodales nisl. Donec malesuada orci ornare risus finibus feugiat.</p>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="timeline-badge"><em class="glyphicon glyphicon-paperclip"></em></div>
-								<div class="timeline-panel">
-									<div class="timeline-heading">
-										<h4 class="timeline-title">Lorem ipsum dolor sit amet</h4>
-									</div>
-									<div class="timeline-body">
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-									</div>
-								</div>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div><!--/.col-->	
-			
-			<div class="col-md-3">
-				<div class="panel panel-default ">
-					<div class="panel-heading">
-						訂單管理
-						<span class="pull-right clickable panel-toggle panel-button-tab-left panel-collapsed"><em class="fa fa-toggle-down"></em></span></div>
-					<div class="panel-body timeline-container" style="display: none;">
-						<ul class="timeline">
-							<li>
-								<div class="timeline-badge"><em class="glyphicon glyphicon-pushpin"></em></div>
-								<div class="timeline-panel">
-									<div class="timeline-heading">
-										<h4 class="timeline-title">Lorem ipsum dolor sit amet</h4>
-									</div>
-									<div class="timeline-body">
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at sodales nisl. Donec malesuada orci ornare risus finibus feugiat.</p>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="timeline-badge primary"><em class="glyphicon glyphicon-link"></em></div>
-								<div class="timeline-panel">
-									<div class="timeline-heading">
-										<h4 class="timeline-title">Lorem ipsum dolor sit amet</h4>
-									</div>
-									<div class="timeline-body">
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="timeline-badge"><em class="glyphicon glyphicon-camera"></em></div>
-								<div class="timeline-panel">
-									<div class="timeline-heading">
-										<h4 class="timeline-title">Lorem ipsum dolor sit amet</h4>
-									</div>
-									<div class="timeline-body">
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at sodales nisl. Donec malesuada orci ornare risus finibus feugiat.</p>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="timeline-badge"><em class="glyphicon glyphicon-paperclip"></em></div>
-								<div class="timeline-panel">
-									<div class="timeline-heading">
-										<h4 class="timeline-title">Lorem ipsum dolor sit amet</h4>
-									</div>
-									<div class="timeline-body">
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-									</div>
-								</div>
-							</li>
-						</ul>
+					<div class="panel-heading">CarRobots</div>
+					<div class="panel-body timeline-container">
+						Put the chatbot structure here :)
 					</div>
 				</div>
 			</div><!--/.col-->
-	
-			<div class="col-sm-12">
-				<p class="back-link">Lumino Theme by <a href="https://www.medialoot.com">Medialoot</a></p>
-			</div>
 		</div><!--/.row-->
+
+		<div class="row" id="divorders">
+			<div class="col-md-12">
+				<div class="panel panel-default ">
+					<div class="panel-heading">Orders</div>
+					<div class="panel-body timeline-container">
+						Put the chatbot structure here :)
+					</div>
+				</div>
+			</div><!--/.col-->
+		</div><!--/.row-->
+
+
 
 	</div>	<!--/.main-->
 	<script>
-		window.onload = function () {
-	var chart1 = document.getElementById("line-chart").getContext("2d");
-	window.myLine = new Chart(chart1).Line(lineChartData, {
-	responsive: true,
-	scaleLineColor: "rgba(0,0,0,.2)",
-	scaleGridLineColor: "rgba(0,0,0,.05)",
-	scaleFontColor: "#c5c7cc"
-	});
-};
+	window.onload = function () {
+		var chart1 = document.getElementById("line-chart").getContext("2d");
+		window.myLine = new Chart(chart1).Line(lineChartData, {
+		responsive: true,
+		scaleLineColor: "rgba(0,0,0,.2)",
+		scaleGridLineColor: "rgba(0,0,0,.05)",
+		scaleFontColor: "#c5c7cc"
+		});
+	};
 	</script>
+{% endblock %}
+
+{% block scripts %}
+<script>
+	$(document).ready(function(){
+		$('#divlogin').hide()
+		$('#login').click(function(){
+			$('#divlogin').slideToggle(1000)
+		})
+		$('#divproducts').hide()
+		$('#products').click(function(){
+			$('#divproducts').slideToggle(1000)
+		})
+		$('#divemployees').hide()
+		$('#employees').click(function(){
+			$('#divemployees').slideToggle(1000)
+		})
+		$('#divcarrobots').hide()
+		$('#carrobots').click(function(){
+			$('#divcarrobots').slideToggle(1000)
+		})
+		$('#divorders').hide()
+		$('#orders').click(function(){
+			$('#divorders').slideToggle(1000)
+		})
+	})
+</script>
 {% endblock %}

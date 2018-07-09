@@ -355,12 +355,12 @@ bot.dialog('Submit reports', [
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body: formData,
-                url: 'http://localhost:8000/api/employeestask/'
+                url: menu.url + 'api/employeestask/'
             };
             request(options, function (error, response, body) {
                 var options = {
                     method: 'GET',
-                    url: 'http://localhost:8000/api/employeestask/'
+                    url: menu.url + 'api/employeestask/'
                 };
                 request(options, function (error, response, body) {
                     employeestask = JSON.parse(body);
@@ -409,12 +409,12 @@ bot.dialog('Delete reports', [
             session.send(reply);
             var options = {
                 method: 'DELETE',
-                url: 'http://localhost:8000/api/employeestask/' + id + "/"
+                url: menu.url + 'api/employeestask/' + id + "/"
             };
             request(options, function (error, response, body) {
                 var options = {
                     method: 'GET',
-                    url: 'http://localhost:8000/api/employeestask/'
+                    url: menu.url + 'api/employeestask/'
                 };
                 request(options, function (error, response, body) {
                     employeestask = JSON.parse(body);
