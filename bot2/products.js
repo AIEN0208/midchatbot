@@ -15,7 +15,7 @@ bot.dialog("products",[
             session.replaceDialog("productCreate");
         }
     }
-]);
+]).triggerAction({matches:/^.*商品頁/});
 // __________________________________________________________________________
 
 var eachP={};
@@ -88,10 +88,9 @@ bot.dialog("productDetail",[
         // session.replaceDialog(items[results.response.entity]);
     },
     eachP={}
-])
+]).triggerAction({matches:/^.*查詢商品/})
 //____________________________________________________________________________
 bot.dialog("productCreate",[
-    
     function createProductName(session){
         session.dialogData.productCreate={};
         builder.Prompts.text(session,"商品名稱");    
@@ -119,7 +118,7 @@ bot.dialog("productCreate",[
     function createProductList(session,results){
         session.dialogData.productCreate.unitprice = results.response;
         UserCreateLog.HistoryRecord=session.dialogData.productCreate
-        console.log(UserCreateLog.HistoryRecord)
+        // console.log(UserCreateLog.HistoryRecord)
         
         var msg =new builder.Message(session)
         msg.attachments([
@@ -186,10 +185,11 @@ bot.dialog("productCreate",[
             }
         },
     
-]).triggerAction({matches:/^新增商品$/})
+]).triggerAction({matches:/^.*新增商品/})
 // __________________________________________________________________________
+var updateE={};
+var UserUpdateLog={}
 bot.dialog("productUpdate",[
-    
     function createProductName(session){
         session.dialogData.productUpdate={};
         builder.Prompts.choice(session,"請問要修改哪個項目?","商品名稱|庫存數量|擺放架位|口味|重量|售價|全部",
@@ -199,7 +199,7 @@ bot.dialog("productUpdate",[
         console.log(updateE)
         theReq= results.response.entity;
         if (theReq=="商品名稱"){
-            
+
         }
         else if(theReq=="庫存數量"){
 
@@ -220,12 +220,10 @@ bot.dialog("productUpdate",[
             session.replaceDialog("productUpdateAll",{reprompt:false})
         }
     }
-]).triggerAction({matches:/^修改商品$/})
+]).triggerAction({matches:/^.*修改商品/})
 
-var updateE={};
 bot.dialog("productUpdateAll",[
     function updateProductName(session){
-        session.send("Get in")
         builder.Prompts.text(session,`目前商品名稱為${updateE.name}，請輸入欲更新的名稱，不需更改請輸入'N'`);    
     },
     function updateProductAmount(session,results){
@@ -262,6 +260,14 @@ bot.dialog("productUpdateAll",[
         if (results.response != "N") {
             updateE.unitprice = results.response;
         }
+        var productUp=querystring.stringify(updateE)
+        //___________________________________
+         UserCreateLog.UserName=session.userData.identity;
+         UserCreateLog.UserId=session.userData.identity;
+         UserCreateLog.Method="Update"
+         UserCreateLog.HistoryRecord=productNewData
+         UserCreateLog.Date=getDateTime()
+         // _____________________________________________________
         var msg =new builder.Message(session)
         msg.attachments([
             new builder.ReceiptCard(session)
@@ -275,13 +281,11 @@ bot.dialog("productUpdateAll",[
                 builder.Fact.create(session,`${updateE.unitprice}`,'售價')
             ])
         ])
-        
         session.send(msg)
         builder.Prompts.choice(session,"商品是否確認修改?","是|否",
             {listStyle:builder.ListStyle.button});
     }, 
-    function createProductPost(session,results){bbh
-        
+    function createProductPost(session,results){
         if (results.response.entity=="是"){
             var check=updateE
             var productUpdateData=querystring.stringify(check)
@@ -304,7 +308,58 @@ bot.dialog("productUpdateAll",[
             session.replaceDialog("productUpdateAll",{reprompt:false})
         }else{
             session.send("就是 跟 否 請唸清楚")
-            // console.log("過了")
+            session.replaceDialog("productCreate",{reprompt:false})
+            }
+        },
+])
+bot.dialog("productUpdateName",[
+    function updateProductName(session){
+        builder.Prompts.text(session,`目前商品名稱為${updateE.name}，請輸入欲更新的名稱，不需更改請輸入'N'`);    
+    },
+    function updateProductList(session,results){
+        if (results.response != "N") {
+            updateE.name=results.response
+        }
+        var msg =new builder.Message(session)
+        msg.attachments([
+            new builder.ReceiptCard(session)
+            .title(`${updateE.name}`)
+            .facts([
+                builder.Fact.create(session,`${updateE.id}`,'商品編號'),
+                builder.Fact.create(session,`${updateE.amount}`,'庫存數量'),
+                builder.Fact.create(session,`${updateE.shelves}`,'倉庫位置'),
+                builder.Fact.create(session,`${updateE.flavor}`,'口味'),
+                builder.Fact.create(session,`${updateE.size}`,'重量'),
+                builder.Fact.create(session,`${updateE.unitprice}`,'售價')
+            ])
+        ])
+        session.send(msg)
+        builder.Prompts.choice(session,"商品是否確認修改?","是|否",
+            {listStyle:builder.ListStyle.button});
+    }, 
+    function createProductPost(session,results){
+        if (results.response.entity=="是"){
+            var check=updateE
+            var productUpdateData=querystring.stringify(check)
+            var options={
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/x-www-form-urlencoded;charset=utf-8'
+                },
+                body:productUpdateData,
+                url:menu.url+'api/v1/products/update'
+            }
+            request(options,function(error,response,body){
+                
+                builder.Prompts.text(session,'商品已修改')
+            })
+            updateE={}
+            // session.send("商品已新增")
+            session.replaceDialog("products",{reprompt:false})
+        }else if(results.response.entity=="否"){
+            session.replaceDialog("productUpdateAll",{reprompt:false})
+        }else{
+            session.send("就是 跟 否 請唸清楚")
             session.replaceDialog("productCreate",{reprompt:false})
             }
         },
