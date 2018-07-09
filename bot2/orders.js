@@ -11,7 +11,7 @@ var orders = menu.orders
 var getorders
 var ordersapi = {
     method: "GET",
-    url: "http://localhost:8000/api/orders/",
+    url: menu.url + "api/orders/",
 }
 request(ordersapi, function (error, response, result) {
     getorders = JSON.parse(result)
@@ -20,7 +20,7 @@ request(ordersapi, function (error, response, result) {
 var getordersdetail
 var ordersdetailapi = {
     method: "GET",
-    url: "http://localhost:8000/api/ordersdetail/",
+    url: menu.url + "api/ordersdetail/",
 }
 request(ordersdetailapi, function (error, response, result) {
     getordersdetail = JSON.parse(result)
@@ -29,7 +29,7 @@ request(ordersdetailapi, function (error, response, result) {
 var getproducts
 var productsapi = {
     method: "GET",
-    url: "http://localhost:8000/api/products/",
+    url: menu.url + "api/products/",
 }
 request(productsapi, function (error, response, result) {
     getproducts = JSON.parse(result)
@@ -202,7 +202,7 @@ bot.dialog('ordersnew', [
         var getorders
         var ordersapi = {
             method: "GET",
-            url: "http://localhost:8000/api/orders/",
+            url: menu.url + "api/orders/",
         }
         request(ordersapi, function (error, response, result) {
             getorders = JSON.parse(result)
@@ -215,7 +215,7 @@ bot.dialog('ordersnew', [
             totalprice += subtotal
             var options = {
                 method: "POST",
-                url: "http://localhost:8000/api/ordersdetail/",
+                url: menu.url + "api/ordersdetail/",
                 headers: { 'content-type': 'application/json' },
                 body: {
                     orderid: getorders.length + 1,
@@ -238,7 +238,7 @@ bot.dialog('ordersnew', [
         }
         var options = {
             method: "POST",
-            url: "http://localhost:8000/api/orders/",
+            url: menu.url + "api/orders/",
             headers: { 'content-type': 'application/json' },
             body: {
                 customername: customername,
@@ -345,7 +345,7 @@ bot.dialog('ordersupdate', [
                     detailid = detail.detailid
                     var options = {
                         method: "PUT",
-                        url: "http://localhost:8000/api/ordersdetail/" + detailid + "/",
+                        url: menu.url + "api/ordersdetail/" + detailid + "/",
                         headers: { 'content-type': 'application/json' },
                         body: {
                             orderid: detail.orderid,
@@ -372,7 +372,7 @@ bot.dialog('ordersupdate', [
             //未更改訂單明細者，更新order資料
             var options = {
                 method: "PUT",
-                url: "http://localhost:8000/api/orders/" + orderid + "/",
+                url: menu.url + "api/orders/" + orderid + "/",
                 headers: { 'content-type': 'application/json' },
                 body: {
                     customername: customername,
@@ -399,7 +399,7 @@ bot.dialog('ordersupdate', [
                             // 更改status者，更改detail狀態
                             var options = {
                                 method: "PUT",
-                                url: "http://localhost:8000/api/ordersdetail/" + detailid + "/",
+                                url: menu.url + "api/ordersdetail/" + detailid + "/",
                                 headers: { 'content-type': 'application/json' },
                                 body: {
                                     orderid: detail.orderid,
@@ -427,7 +427,7 @@ bot.dialog('ordersupdate', [
                                 newamount = product.amount - detail.quantity
                                 var options = {
                                     method: "PUT",
-                                    url: "http://localhost:8000/api/products/" + productid + "/",
+                                    url: menu.url + "api/products/" + productid + "/",
                                     headers: { 'content-type': 'application/json' },
                                     body: {
                                         productid: product.productid,
@@ -465,7 +465,7 @@ bot.dialog('ordersupdate', [
             // 更改訂單明細者，新增訂單明細
             var options = {
                 method: "POST",
-                url: "http://localhost:8000/api/ordersdetail/",
+                url: menu.url + "api/ordersdetail/",
                 headers: { 'content-type': 'application/json' },
                 body: {
                     orderid: orderid,
@@ -489,7 +489,7 @@ bot.dialog('ordersupdate', [
         //更改訂單明細者，更新order資料
         var options = {
             method: "PUT",
-            url: "http://localhost:8000/api/orders/" + orderid + "/",
+            url: menu.url + "api/orders/" + orderid + "/",
             headers: { 'content-type': 'application/json' },
             body: {
                 customername: customername,

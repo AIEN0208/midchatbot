@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `yogurt` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
-USE `yogurt`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: yogurt
@@ -344,7 +342,7 @@ CREATE TABLE `drivelesscar` (
 
 LOCK TABLES `drivelesscar` WRITE;
 /*!40000 ALTER TABLE `drivelesscar` DISABLE KEYS */;
-INSERT INTO `drivelesscar` VALUES (1,'1號','待充電','0%'),(2,'2號','待充電','0%'),(3,'3號','休眠中','100%'),(4,'4號','休眠中','100%'),(5,'5號','待充電','0%'),(6,'6號','待充電','0%'),(7,'7號','休眠中','100%'),(8,'8號','維修中','100%'),(9,'9號','休眠中','100%'),(10,'10號','待充電','0%'),(11,'11號','休眠中','100%');
+INSERT INTO `drivelesscar` VALUES (1,'1號','充電完成','100%'),(2,'2號','充電完成','100%'),(3,'3號','休眠中','100%'),(4,'4號','休眠中','100%'),(5,'5號','充電完成','100%'),(6,'6號','充電完成','100%'),(7,'7號','休眠中','100%'),(8,'8號','維修中','100%'),(9,'9號','休眠中','100%'),(10,'10號','充電完成','100%'),(11,'11號','休眠中','100%');
 /*!40000 ALTER TABLE `drivelesscar` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -407,7 +405,7 @@ CREATE TABLE `employeestask` (
   `enduptime` datetime DEFAULT NULL,
   `employeestaskcol` varchar(45) CHARACTER SET latin1 DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -416,7 +414,7 @@ CREATE TABLE `employeestask` (
 
 LOCK TABLES `employeestask` WRITE;
 /*!40000 ALTER TABLE `employeestask` DISABLE KEYS */;
-INSERT INTO `employeestask` VALUES (1,1,'','與Wos Burger簽下新合同， 供應優格做為其商品之一。',NULL,NULL,NULL),(2,1,'','受到國際貿易戰爭衝擊，部份輸出國家關稅增加。',NULL,NULL,NULL),(3,3,'','美元強勢看漲，建議增家公司現金分配比例。',NULL,NULL,NULL),(4,3,'','國X局正在找我們麻煩，要派特務出動嗎?',NULL,NULL,NULL),(5,4,'','亞太地區的招募計劃大成功，我們獲得了許多新鮮的livers.',NULL,NULL,NULL),(6,5,'','Distco的訂單已完成63%，應能如期交貨。',NULL,NULL,NULL),(7,5,NULL,'Carrefour的訂單已完成95%，應能如期交貨。',NULL,NULL,NULL),(8,5,NULL,'RT-Mart的訂單已完成52%，或能如期交貨。',NULL,NULL,NULL),(9,5,NULL,'廠區產能滿載，搬運人手不足，急需AGVs!!!',NULL,NULL,NULL),(10,1,'穿布偶服去街上發傳單',NULL,NULL,NULL,NULL),(11,1,'做一個觀看人數破百萬的youtube視頻',NULL,NULL,NULL,NULL),(12,1,'這季銷售再下滑全體睡公司',NULL,NULL,NULL,NULL),(13,3,'Save my money!!',NULL,NULL,NULL,NULL),(14,4,'尋找更新鮮的肝',NULL,NULL,NULL,NULL),(15,4,'向大專院校尋求建教合作，獲取勞力',NULL,NULL,NULL,NULL),(16,5,'生產Distco的訂單',NULL,NULL,NULL,NULL),(17,5,'生產Carrefour的訂單',NULL,NULL,NULL,NULL),(18,5,'生產RT-Mart的訂單',NULL,NULL,NULL,NULL);
+INSERT INTO `employeestask` VALUES (1,1,'','與Wos Burger簽下新合同， 供應優格做為其商品之一。',NULL,NULL,NULL),(2,1,'','受到國際貿易戰爭衝擊，部份輸出國家關稅增加。',NULL,NULL,NULL),(3,3,'','美元強勢看漲，建議增家公司現金分配比例。',NULL,NULL,NULL),(4,3,'','國X局正在找我們麻煩，要派特務出動嗎?',NULL,NULL,NULL),(5,4,'','亞太地區的招募計劃大成功，我們獲得了許多新鮮的livers.',NULL,NULL,NULL),(6,5,'','Distco的訂單已完成63%，應能如期交貨。',NULL,NULL,NULL),(7,5,NULL,'Carrefour的訂單已完成95%，應能如期交貨。',NULL,NULL,NULL),(8,5,NULL,'RT-Mart的訂單已完成52%，或能如期交貨。',NULL,NULL,NULL),(9,5,NULL,'廠區產能滿載，搬運人手不足，急需AGVs!!!',NULL,NULL,NULL),(10,1,'穿布偶服去街上發傳單',NULL,NULL,NULL,NULL),(11,1,'做一個觀看人數破百萬的youtube視頻',NULL,NULL,NULL,NULL),(12,1,'這季銷售再下滑全體睡公司',NULL,NULL,NULL,NULL),(13,3,'Save my money!!',NULL,NULL,NULL,NULL),(14,4,'尋找更新鮮的肝',NULL,NULL,NULL,NULL),(15,4,'向大專院校尋求建教合作，獲取勞力',NULL,NULL,NULL,NULL),(16,5,'生產Costco的訂單',NULL,NULL,NULL,NULL),(17,5,'生產Carrefour的訂單',NULL,NULL,NULL,NULL),(18,5,'生產RT-Mart的訂單',NULL,NULL,NULL,NULL),(19,6,'生產Costco的訂單',NULL,NULL,NULL,NULL),(20,7,'生產Carrefour的訂單',NULL,NULL,NULL,NULL),(21,9,'生產RT-Mart的訂單',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `employeestask` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -516,4 +514,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-04 21:01:51
+-- Dump completed on 2018-07-08 23:32:53

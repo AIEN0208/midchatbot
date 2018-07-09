@@ -1,4 +1,5 @@
 {
+    "url":"https://ba75f916.ngrok.io/",
     "main":{
         "產品":"products",
         "會員":"members",
@@ -32,8 +33,11 @@
     
     "task":{
         "成員工作清單":"Clock-in & Daily Plan",
+        "成員/工作清單":"Clock-in & Daily Plan",
+        "工作清單":"Clock-in & Daily Plan",
         "工作時間確認":"Work Time Confirmation",
         "工作情況回報":"Work Reports",
+        "呈報工作情況":"Work Submits",
         "工作效率回報":"Efficiency Report",
         "回主選單":"Main menu"
     }

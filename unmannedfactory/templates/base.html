@@ -5,6 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Lumino - Widgets</title>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 	<link href="{% static 'lumino/css/bootstrap.min.css' %}" rel="stylesheet">
 	<link href="{% static 'lumino/css/font-awesome.min.css' %}" rel="stylesheet">
 	<link href="{% static 'lumino/css/datepicker3.css' %}" rel="stylesheet">
@@ -15,16 +16,24 @@
 	<script src="js/html5shiv.js"></script>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
+	<style>
+	.fixed {
+		position: fixed;
+		bottom: 70px;
+		right: 0;
+		}
+	</style>
 </head>
 <body>
 
 	{% include 'nav.html' %}
 	
 	{% include 'sidebar.html' %}
-		
-	{% block content %} {% endblock %}
-
-
+	
+	{% block content %}{% endblock %}
+	<div class="fixed">
+		<a onclick="window.open('https://webchat.botframework.com/embed/greekyogurt0705?s=xFsT30VlnU0.cwA.KnA.XrteXf0F44_j8genOLQJEVj9-muwV5JIJqnoV0PrLBU', 'chatbot', config='height=500,width=500') " type="button" class="btn btn-primary" style="border-radius: 10px" ><i class="fas fa-comments fa-4x" style="z-index:1;"></i></a>
+	</div>
 	<script src="{% static 'lumino/js/jquery-1.11.1.min.js' %}"></script>
 	<script src="{% static 'lumino/js/bootstrap.min.js' %}"></script>
 	<script src="{% static 'lumino/js/chart.min.js' %}"></script>
@@ -33,5 +42,7 @@
 	<script src="{% static 'lumino/js/easypiechart-data.js' %}"></script>
 	<script src="{% static 'lumino/js/bootstrap-datepicker.js' %}"></script>
 	<script src="{% static 'lumino/js/custom.js' %}"></script>
+	{% block scripts %}
+    {% endblock %}
 </body>
 </html>

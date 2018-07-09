@@ -24,7 +24,7 @@ bot.dialog("productDetail",[
         session.dialogData.products={} 
         var productApi={
             method:"GET",
-            url:'http://127.0.0.1:8000/api/v1/products'
+            url: menu.url + "api/v1/products"
         }
         //________________________________________________________________
         request(productApi,function(err,response,result){
@@ -157,7 +157,7 @@ bot.dialog("productCreate",[
                         'Content-Type':'application/x-www-form-urlencoded;charset=utf-8'
                     },
                 body:productNewData,
-                url:'http://127.0.0.1:8000/api/v1/products',
+                url: menu.url + 'api/v1/products'
             }
             request(options,function(error,response,body){
                 builder.Prompts.text(session,'商品已新增')

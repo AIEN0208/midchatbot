@@ -57,7 +57,7 @@ var bot = new builder.UniversalBot(connector, [
                 { url: 'https://www.youtube.com/watch?v=au8lGDV-1Es' }
             ])
             .buttons([
-                builder.CardAction.openUrl(session, "http://localhost:8000/", "Learn more")
+                builder.CardAction.openUrl(session, menu.url, "Learn more")
             ])
             // .autostart(true)
             ;
@@ -83,12 +83,11 @@ bot.dialog('Login', [
         var pwd = results.response;
         var options = {
             method: 'GET',
-            url: 'http://localhost:8000/api/employees/'
+            url: menu.url + 'api/employees/'
         };
         request(options, function (error, response, body) {
             var employees = JSON.parse(body);
             var confirmed = 0;
-            console.log(employees[0].employeeid);
             for (i = 0; i < employees.length; i++) {
                 if (employees[i].postalcode == pwd) {
                     session.send("身分確認");
@@ -118,11 +117,11 @@ bot.dialog('Main menu', [
         if (identity == 0) {
             session.replaceDialog("Login")
         } else if (identity == 2) {
-            builder.Prompts.choice(session, "請選擇管理系統", menu.Menu, { listStyle: builder.ListStyle.button });
+            builder.Prompts.choice(session, "請選擇管理系統",menu.Menu, { listStyle: builder.ListStyle.button });
         } else if (identity == 5) {
-            builder.Prompts.choice(session, menu.Menu, { listStyle: builder.ListStyle.button });
+            builder.Prompts.choice(session, "請選擇管理系統",menu.Menu, { listStyle: builder.ListStyle.button });
         } else {
-            builder.Prompts.choice(session, menu.Menu, { listStyle: builder.ListStyle.button });
+            builder.Prompts.choice(session, "請選擇管理系統",menu.Menu, { listStyle: builder.ListStyle.button });
         }
     },
     function (session, results) {

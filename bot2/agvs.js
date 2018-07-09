@@ -4,7 +4,6 @@ var builder = require('botbuilder')
 var request = require('request')
 var server = restify.createServer()
 var menu = require('./menuConfig.json')
-var orders = menu.orders
 // ==================================================================================
 // Dialog function of 機器人 ==========================================================
 // Car variable
@@ -22,7 +21,7 @@ var cars
 var car
 var carapi = {
     method: "GET",
-    url: "http://localhost:8000/api/drivelesscar/?format=json"
+    url: menu.url + "api/drivelesscar/?format=json"
 }
 request(carapi, function (error, response, body) {
     car = JSON.parse(body)
@@ -59,147 +58,140 @@ var whofix = /.*哪幾台.*維修.*/
 var whobat = /.*哪幾台.*待充電.*/
 var ingwhobat = /.*哪幾台.*正在充電.*/
 
-function showTime() {
-    var options = {
-        method: "GET",
-        url: "http://localhost:8000/api/drivelesscar/?format=json"
-    }
-    request(options, function (error, response, body) {
-        car = JSON.parse(body)
-        cars = car
-    })
-    setTimeout(function () {
-        for (i = 0; i < car.length - 1; i++) {
-            if (cars[i].status == "工作中") {
-                battery = cars[i].battery.split("%")[0]
-                if (battery <= 5) {
-                    var options = {
-                        method: "PUT",
-                        url: "http://localhost:8000/api/drivelesscar/" + cars[i].id + "/",
-                        headers: { 'content-type': 'application/json' },
-                        body: {
-                            id: cars[i].id,
-                            carid: cars[i].id + "號",
-                            status: "待充電",
-                            battery: "0%"
-                        },
-                        json: true
-                    }
-                    request(options, function (error, response, body) {
-                        if (!error && response.statusCode == 200) {
-                            console.log("ok")
-                        } else {
-                            console.log("no")
-                        }
-                    })
-                }
-                else {
-                    var options = {
-                        method: "PUT",
-                        url: "http://localhost:8000/api/drivelesscar/" + car[i].id + "/",
-                        headers: { 'content-type': 'application/json' },
-                        body: {
-                            id: car[i].id,
-                            carid: car[i].id + "號",
-                            status: car[i].status,
-                            battery: (battery - 5) + "%"
-                        },
-                        json: true
-                    }
-                    request(options, function (error, response, body) {
-                        if (!error && response.statusCode == 200) {
-                            console.log("ok")
-                        } else {
-                            console.log("no")
-                        }
-                    })
-                }
-            }else if(cars[i].status == "待充電"){
-                battery = parseInt(cars[i].battery.split("%")[0])
-                var options = {
-                    method: "PUT",
-                    url: "http://localhost:8000/api/drivelesscar/" + car[i].id + "/",
-                    headers: { 'content-type': 'application/json' },
-                    body: {
-                        id: car[i].id,
-                        carid: car[i].id + "號",
-                        status: "充電中",
-                        battery: (battery + 5) + "%"
-                    },
-                    json: true
-                }
-                request(options, function (error, response, body) {
-                    if (!error && response.statusCode == 200) {
-                        console.log("ok")
-                    } else {
-                        console.log("no")
-                    }
-                })
-            }else if(cars[i].status == "充電中"){
-                battery = parseInt(cars[i].battery.split("%")[0])
-                if(battery>=95){
-                    var options = {
-                        method: "PUT",
-                        url: "http://localhost:8000/api/drivelesscar/" + car[i].id + "/",
-                        headers: { 'content-type': 'application/json' },
-                        body: {
-                            id: car[i].id,
-                            carid: car[i].id + "號",
-                            status: "充電完成",
-                            battery: "100%"
-                        },
-                        json: true
-                    }
-                    request(options, function (error, response, body) {
-                        if (!error && response.statusCode == 200) {
-                            console.log("ok")
-                        } else {
-                            console.log("no")
-                        }
-                    })
-                }else{
-                    var options = {
-                        method: "PUT",
-                        url: "http://localhost:8000/api/drivelesscar/" + car[i].id + "/",
-                        headers: { 'content-type': 'application/json' },
-                        body: {
-                            id: car[i].id,
-                            carid: car[i].id + "號",
-                            status: "充電中",
-                            battery: (battery + 5) + "%"
-                        },
-                        json: true
-                    }
-                    request(options, function (error, response, body) {
-                        if (!error && response.statusCode == 200) {
-                            console.log("ok")
-                        } else {
-                            console.log("no")
-                        }
-                    })
-                }
-            }else{
-                continue
-            }
-        }
-    }, 50)
-}
-setInterval(function () {
-    showTime()
-}, 179950)
+// function showTime() {
+//     var options = {
+//         method: "GET",
+//         url: menu.url + "api/drivelesscar/?format=json"
+//     }
+//     request(options, function (error, response, body) {
+//         car = JSON.parse(body)
+//         cars = car
+//     })
+//     setTimeout(function () {
+//         for (i = 0; i < car.length - 1; i++) {
+//             if (cars[i].status == "工作中") {
+//                 battery = cars[i].battery.split("%")[0]
+//                 if (battery <= 5) {
+//                     var options = {
+//                         method: "PUT",
+//                         url: menu.url + "api/drivelesscar/" + cars[i].id + "/",
+//                         headers: { 'content-type': 'application/json' },
+//                         body: {
+//                             id: cars[i].id,
+//                             carid: cars[i].id + "號",
+//                             status: "待充電",
+//                             battery: "0%"
+//                         },
+//                         json: true
+//                     }
+//                     request(options, function (error, response, body) {
+//                         if (!error && response.statusCode == 200) {
+//                             console.log("ok")
+//                         } else {
+//                             console.log("no")
+//                         }
+//                     })
+//                 }
+//                 else {
+//                     var options = {
+//                         method: "PUT",
+//                         url: menu.url + "api/drivelesscar/" + car[i].id + "/",
+//                         headers: { 'content-type': 'application/json' },
+//                         body: {
+//                             id: car[i].id,
+//                             carid: car[i].id + "號",
+//                             status: car[i].status,
+//                             battery: (battery - 5) + "%"
+//                         },
+//                         json: true
+//                     }
+//                     request(options, function (error, response, body) {
+//                         if (!error && response.statusCode == 200) {
+//                             console.log("ok")
+//                         } else {
+//                             console.log("no")
+//                         }
+//                     })
+//                 }
+//             }else if(cars[i].status == "待充電"){
+//                 battery = parseInt(cars[i].battery.split("%")[0])
+//                 var options = {
+//                     method: "PUT",
+//                     url: menu.url + "api/drivelesscar/" + car[i].id + "/",
+//                     headers: { 'content-type': 'application/json' },
+//                     body: {
+//                         id: car[i].id,
+//                         carid: car[i].id + "號",
+//                         status: "充電中",
+//                         battery: (battery + 5) + "%"
+//                     },
+//                     json: true
+//                 }
+//                 request(options, function (error, response, body) {
+//                     if (!error && response.statusCode == 200) {
+//                         console.log("ok")
+//                     } else {
+//                         console.log("no")
+//                     }
+//                 })
+//             }else if(cars[i].status == "充電中"){
+//                 battery = parseInt(cars[i].battery.split("%")[0])
+//                 if(battery>=95){
+//                     var options = {
+//                         method: "PUT",
+//                         url: menu.url + "api/drivelesscar/" + car[i].id + "/",
+//                         headers: { 'content-type': 'application/json' },
+//                         body: {
+//                             id: car[i].id,
+//                             carid: car[i].id + "號",
+//                             status: "充電完成",
+//                             battery: "100%"
+//                         },
+//                         json: true
+//                     }
+//                     request(options, function (error, response, body) {
+//                         if (!error && response.statusCode == 200) {
+//                             console.log("ok")
+//                         } else {
+//                             console.log("no")
+//                         }
+//                     })
+//                 }else{
+//                     var options = {
+//                         method: "PUT",
+//                         url: menu.url + "api/drivelesscar/" + car[i].id + "/",
+//                         headers: { 'content-type': 'application/json' },
+//                         body: {
+//                             id: car[i].id,
+//                             carid: car[i].id + "號",
+//                             status: "充電中",
+//                             battery: (battery + 5) + "%"
+//                         },
+//                         json: true
+//                     }
+//                     request(options, function (error, response, body) {
+//                         if (!error && response.statusCode == 200) {
+//                             console.log("ok")
+//                         } else {
+//                             console.log("no")
+//                         }
+//                     })
+//                 }
+//             }else{
+//                 continue
+//             }
+//         }
+//     }, 50)
+// }
+// setInterval(function () {
+//     showTime()
+// }, 179950)
 // Startcar====================================================================
 bot.dialog('carMenu', [
     function (session, args) {
         var promptText
         var msg = new builder.Message(session)
-        if (args && args.reprompt) {
-            promptText = "請問您還要問什麼問題嗎?"
-        }
-        else {
-            promptText = "您進入的是無人車查詢頁面，請問您想要問什麼問題呢?"
-            session.conversationData.orders = new Array()
-        }
-        builder.Prompts.text(session, promptText)
+        msg.text("您可以選擇選項或直接輸入問題")
         msg.suggestedActions(builder.SuggestedActions.create(
             session, [
                 builder.CardAction.imBack(session, "查詢電池", "查詢電池"),
@@ -207,6 +199,13 @@ bot.dialog('carMenu', [
                 builder.CardAction.imBack(session, "離開", "離開")
             ]
         ))
+        if (args && args.reprompt) {
+            promptText = "請問您還要問什麼問題嗎?"
+        }
+        else {
+            promptText = "您進入的是無人車查詢頁面，請問您想要問什麼問題呢?"
+        }
+        builder.Prompts.text(session, promptText)
         session.send(msg)
     },
     function (session, results) {
@@ -319,7 +318,7 @@ bot.dialog("carupdate", [
         var msg = new builder.Message(session)
         var carapi = {
             method: "GET",
-            url: "http://localhost:8000/api/drivelesscar/?format=json"
+            url: menu.url + "api/drivelesscar/?format=json"
         }
         request(carapi, function (error, response, body) {
             car = JSON.parse(body)
@@ -369,7 +368,7 @@ bot.dialog("carupdate", [
             if (car[i].id == carid) {
                 var options = {
                     method: "PUT",
-                    url: "http://localhost:8000/api/drivelesscar/" + carid + "/",
+                    url: menu.url + "api/drivelesscar/" + carid + "/",
                     headers: { 'content-type': 'application/json' },
                     body: {
                         id: carid,
@@ -422,7 +421,7 @@ bot.dialog("caradd", [
             for (i = 1; i < session.dialogData.carnumber + 1; i++) {
                 var options = {
                     method: "POST",
-                    url: "http://localhost:8000/api/drivelesscar/",
+                    url: menu.url + "api/drivelesscar/",
                     headers: { 'content-type': 'application/json' },
                     body: {
                         id: last + i,
@@ -471,7 +470,7 @@ bot.dialog("cardelete", [
         }else{
             var options = {
                 method: "DELETE",
-                url: "http://localhost:8000/api/drivelesscar/" + results.response + "/",
+                url: menu.url + "api/drivelesscar/" + results.response + "/",
             }
             request(options, function (error, response, body) {
                 if (!error && response.statusCode == 204) {

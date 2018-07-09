@@ -7,7 +7,7 @@
 					<em class="fa fa-home"></em>
 				</a>
 			</li>
-			<li class="active">Forms</li>
+			<li class="active">UI Elements</li>
 		</ol>
 	</div>
 	<!--/.row-->
@@ -19,74 +19,43 @@
 	</div>
 	<!--/.row-->
 
-	<div class="panel panel-default">
-
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="row">
-					<div class="col-lg-2">
-						<img class="d-block w-40 h-30" src="https://www.presentermedia.com/files/animsp/00015000/15966/office_worker_hard_at_work_anim_md_wm.gif"
-						 alt="First slide" style="position: relative;">
+	<div class="panel panel-default articles">
+		<div class="panel-heading">
+			Task management
+			<ul class="pull-right panel-settings panel-button-tab-right">
+				<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
+				</a>
+				</li>
+			</ul>
+			<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
+		<div class="panel-body articles-container" id='onGing'>
+			{% for row in rows %}
+				<div class="article border-bottom">
+					<div class="col-xs-12">
+						<div class="row">
+							<div class="col-xs-3 col-md-3 date">
+								<div class="large"><img class="d-block w-40 h-30" src={{row.0.photopath}}
+									alt="First slide" style="position: relative;"></div>
+								<div class="text-muted">{{ row.0.department }}</div>
+								<div class="text-muted">{{ row.0.position }}</div>
+							</div>
+							<div class="col-xs-7 col-md-7">
+								<h4><a href="#" id='name'>{{ row.0.lastname }} {{ row.0.firstname }}</a></h4>
+								{% for job in row.1 %}									
+									<p>{{job}}</p>
+								{% endfor %}
+							</div>
+							<div class="col-xs-2 col-md-2 date" style = "margin:auto; color:blue">
+								<div class="large" id="price"></div>
+							</div>
+						</div>
 					</div>
-					<div class="col-lg-10">
-						<ul class="list-group">
-							<li class="list-group-item disabled">Davolio Nancy</li>
-							{% for jobs in jobset.1 %}
-							<li class="list-group-item disabled">{{jobs}}</li>
-							{% endfor %}
-						</ul>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-lg-2">
-						<img class="d-block w-40 h-30" src="https://3.bp.blogspot.com/-O-OysPmGAys/WRHkuWExPVI/AAAAAAAAABc/_tn_OZO71Rwqiv9m247WX7rG1Bxm-WfeQCLcB/s1600/businessman_multi_tasking.gif"
-						 alt="First slide" style="position: relative;">
-					</div>
-					<div class="col-lg-10">
-						<ul class="list-group">
-							<li class="list-group-item disabled">Leverling Janet</li>
-							{% for jobs in jobset.3 %}
-							<li class="list-group-item disabled">{{jobs}}</li>
-							{% endfor %}
-						</ul>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-lg-2">
-						<img class="d-block w-40 h-30" src="https://www.presentermedia.com/files/animsp/00005000/5432/two_chatting_in_cubicle_md_wm_v2.gif"
-						 alt="First slide" style="position: relative;">
-					</div>
-					<div class="col-lg-10">
-						<ul class="list-group">
-							<li class="list-group-item disabled">Peacock Margaret</li>
-							{% for jobs in jobset.4 %}
-							<li class="list-group-item disabled">{{jobs}}</li>
-							{% endfor %}
-						</ul>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-lg-2">
-						<img class="d-block w-40 h-30" src="https://www.presentermedia.com/files/animsp/00013000/13556/robot_arm_move_objects_md_wm.gif"
-						 alt="First slide" style="position: relative;">
-					</div>
-					<div class="col-lg-10">
-						<ul class="list-group">
-							<li class="list-group-item disabled">Buchana Steve</li>
-							{% for jobs in jobset.5 %}
-							<li class="list-group-item disabled">{{jobs}}</li>
-							{% endfor %}
-						</ul>
-					</div>
-				</div>
-
-
-			</div>
-
+					<div class="clear"></div>
+				</div><!--End .article-->
+			{% endfor %}
 		</div>
-
-	</div>
-	<!-- /.panel-->
+</div>
+<!--End .articles-->
 
 </div>
 <!-- /.col-->
