@@ -400,14 +400,14 @@ bot.dialog("caradd", [
             session,[builder.CardAction.imBack(session, "取消新增", "取消新增")]
         ))
         session.send(msg)
-    },
+    }, 
     function (session, results) {
         if (results.response == "取消新增"){
             session.replaceDialog("carstatus")
         }else{
             cars = []
             last = car.length
-            session.dialogData.carnumber = results.response
+            session.dialogData.carnumber = parseInt(results.response)
             for (i = 1; i < session.dialogData.carnumber + 1; i++) {
                 carnum = (last + i) + "號"
                 cars.push(carnum)

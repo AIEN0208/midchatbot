@@ -89,6 +89,7 @@ bot.dialog("productDetail",[
     },
     eachP={}
 ])
+UserCreateLog={}
 //____________________________________________________________________________
 bot.dialog("productCreate",[
     
@@ -175,7 +176,7 @@ bot.dialog("productCreate",[
                 uri:'https://sheetdb.io/api/v1/5b308e9e080cc'
             }
             request(options2)
-            session.replaceDialog("products",{reprompt:false})
+            session.replaceDialog("Main menu",{reprompt:false})
             UserCreateLog={}
         }else if(results.response.entity=="否"){
             session.replaceDialog("productCreate",{reprompt:false})
