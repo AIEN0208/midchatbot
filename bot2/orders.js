@@ -177,13 +177,8 @@ bot.dialog('ordersselect', [
 
 bot.dialog('ordersnew', [
     function (session) {
-        var msg = new builder.Message(session)
         session.dialogData.new = {}
         builder.Prompts.text(session, "請輸入客戶名稱?")
-        msg.suggestedActions(builder.SuggestedActions.create(
-            session,[builder.CardAction.imBack(session, "回訂單首頁", "回訂單首頁")]
-        ))
-        session.send(msg)
     },
     function (session, results) {
         session.dialogData.new.customername = results.response

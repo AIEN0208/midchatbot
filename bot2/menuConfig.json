@@ -1,5 +1,5 @@
 {
-    "url":"https://187ff1b0.ngrok.io/",
+    "url":"localhost:8000/",
     "main":{
         "產品":"products",
         "會員":"members",

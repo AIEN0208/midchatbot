@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.core import serializers as asserializersForORM
 from rest_framework import viewsets
-
+import time
 import json
 
 import lumino.models as models
@@ -50,7 +50,39 @@ def carrobots(request):
     pageTitle = "#"
     drs = dr()
     data = drs.all()
+    for car in data:
+        if car[2] == "工作中":
+            battery = int(car[3].split("%")[0])
+            if battery <= 5 :
+                car = dr.objects.get(id = car[0])
+                car.battery = "0%"
+                car.status = "待充電"
+                car.save()
+            else:
+                car = dr.objects.get(id = car[0])
+                car.battery = str((battery - 5)) + "%"
+                car.save()
+        elif car[2] == "待充電":
+            battery = int(car[3].split("%")[0])
+            car = dr.objects.get(id = car[0])
+            car.battery = str((battery + 5)) + "%"
+            car.status = "充電中"
+            car.save()
+        elif car[2] == "充電中":
+            battery = int(car[3].split("%")[0])
+            if battery >= 95 :
+                car = dr.objects.get(id = car[0])
+                car.battery = "100%"
+                car.status = "充電完成"
+                car.save()
+            else :
+                car = dr.objects.get(id = car[0])
+                car.battery = str((battery + 5)) + "%"
+                car.save()
+        else :
+            continue
     return render(request, "lumino/carrobots.html", locals())
+
 def members(request):
     pageTitle = "#"
     jobset={}
