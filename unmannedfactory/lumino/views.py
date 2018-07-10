@@ -196,11 +196,16 @@ def productUpdate(request):
         return JsonResponse(dump,safe=False)
         
 def products(request):
-    data = Products.objects.all()
-    # data = asserializersForORM.serialize("json", Products.objects.all())
-    # allDatasOfProduct= json.loads(data)
+    totalQuantity=0   
+    details = OrdersDetail.objects.all()
+    for detail in details :
+        if detail.status != 'Canceled':
+            totalQuantity += detail.quantity
+    print(totalQuantity)
+    #     print(totalQuantity)
     response = requests.get('https://sheetdb.io/api/v1/5b308e9e080cc')
     UserLog =  response.json()
-    print(UserLog)
+    data = Products.objects.all()
+    # print(UserLog)
     return render(request,'lumino/products.html',locals())
 

@@ -208,7 +208,7 @@ bot.dialog('ordersnew', [
             getorders = JSON.parse(result)
 
             for (i = 0; i < newdetail.length; i++) {
-            id = parseInt(newdetail[i].product[0])
+            id = parseInt(newdetail[i].product.split(' -')[0])
             unitprice = parseInt(getproducts[id - 1].unitprice)
             amount = newdetail[i].amount
             subtotal = unitprice * amount
@@ -456,8 +456,9 @@ bot.dialog('ordersupdate', [
     },
     function (session, results) {
         totalprice = 0
+        console.log(updatedetail)
         for (i = 0; i < updatedetail.length; i++) {
-            id = parseInt(updatedetail[i].product[0])
+            id = parseInt(updatedetail[i].product.split(" -")[0])
             unitprice = parseInt(getproducts[id - 1].unitprice)
             amount = updatedetail[i].amount
             subtotal = unitprice * amount
