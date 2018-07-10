@@ -90,6 +90,7 @@ bot.dialog("productDetail",[
     eachP={}
 ]).triggerAction({matches:/^.*查詢商品/})
 //____________________________________________________________________________
+UserCreateLog={};
 bot.dialog("productCreate",[
     function createProductName(session){
         session.dialogData.productCreate={};
@@ -116,10 +117,7 @@ bot.dialog("productCreate",[
         builder.Prompts.text(session,"售價")
     },
     function createProductList(session,results){
-        session.dialogData.productCreate.unitprice = results.response;
-        UserCreateLog.HistoryRecord=session.dialogData.productCreate
-        // console.log(UserCreateLog.HistoryRecord)
-        
+        session.dialogData.productCreate.unitprice = results.response;    
         var msg =new builder.Message(session)
         msg.attachments([
             new builder.ReceiptCard(session)
@@ -144,7 +142,7 @@ bot.dialog("productCreate",[
             var productNewData=querystring.stringify(check)
             console.log(productNewData)
             //___________________________________
-            UserCreateLog.UserName=session.userData.identity;
+            UserCreateLog.UserName=session.userData.nameandtitle;
             UserCreateLog.UserId=session.userData.identity;
             UserCreateLog.Method="Create"
             UserCreateLog.HistoryRecord=productNewData
@@ -199,7 +197,7 @@ bot.dialog("productUpdate",[
         console.log(updateE)
         theReq= results.response.entity;
         if (theReq=="商品名稱"){
-
+            session.replaceDialog("productUpdateName",{reprompt:false})
         }
         else if(theReq=="庫存數量"){
 
@@ -262,11 +260,11 @@ bot.dialog("productUpdateAll",[
         }
         var productUp=querystring.stringify(updateE)
         //___________________________________
-         UserCreateLog.UserName=session.userData.identity;
-         UserCreateLog.UserId=session.userData.identity;
-         UserCreateLog.Method="Update"
-         UserCreateLog.HistoryRecord=productNewData
-         UserCreateLog.Date=getDateTime()
+        UserUpdateLog.UserName=session.userData.nameandtitle;
+        UserUpdateLog.UserId=session.userData.identity;
+        UserUpdateLog.Method="Update"
+        UserUpdateLog.HistoryRecord=productUp
+        UserUpdateLog.Date=getDateTime()
          // _____________________________________________________
         var msg =new builder.Message(session)
         msg.attachments([
@@ -301,6 +299,20 @@ bot.dialog("productUpdateAll",[
                 
                 builder.Prompts.text(session,'商品已修改')
             })
+            var options2={
+                method:'POST',
+                json:true,
+                headers:{'Content-Type':'application/json' },
+                body:{"data":{  "UserName": UserUpdateLog.UserName,
+                                "UserId": UserUpdateLog.UserId,
+                                "HistoryRecord":UserUpdateLog.HistoryRecord,
+                                "Method": UserUpdateLog.Method,
+                                "Date": UserUpdateLog.Date }},
+                uri:'https://sheetdb.io/api/v1/5b308e9e080cc'
+            }
+            request(options2)
+            session.replaceDialog("products",{reprompt:false})
+            UserUpdateLog={}
             updateE={}
             // session.send("商品已新增")
             session.replaceDialog("products",{reprompt:false})
@@ -320,6 +332,7 @@ bot.dialog("productUpdateName",[
         if (results.response != "N") {
             updateE.name=results.response
         }
+        
         var msg =new builder.Message(session)
         msg.attachments([
             new builder.ReceiptCard(session)
@@ -341,6 +354,12 @@ bot.dialog("productUpdateName",[
         if (results.response.entity=="是"){
             var check=updateE
             var productUpdateData=querystring.stringify(check)
+            
+            UserUpdateLog.UserName=session.userData.nameandtitle;
+            UserUpdateLog.UserId=session.userData.identity;
+            UserUpdateLog.Method="Update"
+            UserUpdateLog.HistoryRecord=productUpdateData
+            UserUpdateLog.Date=getDateTime()
             var options={
                 method:'POST',
                 headers:{
@@ -353,9 +372,22 @@ bot.dialog("productUpdateName",[
                 
                 builder.Prompts.text(session,'商品已修改')
             })
+            var options2={
+                method:'POST',
+                json:true,
+                headers:{'Content-Type':'application/json' },
+                body:{"data":{  "UserName": UserUpdateLog.UserName,
+                                "UserId": UserUpdateLog.UserId,
+                                "HistoryRecord":UserUpdateLog.HistoryRecord,
+                                "Method": UserUpdateLog.Method,
+                                "Date": UserUpdateLog.Date }},
+                uri:'https://sheetdb.io/api/v1/5b308e9e080cc'
+            }
+            request(options2)
+            session.replaceDialog("products",{reprompt:false})
+            UserUpdateLog={}
             updateE={}
             // session.send("商品已新增")
-            session.replaceDialog("products",{reprompt:false})
         }else if(results.response.entity=="否"){
             session.replaceDialog("productUpdateAll",{reprompt:false})
         }else{

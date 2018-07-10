@@ -1,5 +1,5 @@
 {
-    "url":"https://ba75f916.ngrok.io/",
+    "url":"http://127.0.0.1:8000/",
     "main":{
         "產品":"products",
         "會員":"members",
